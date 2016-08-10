@@ -1,5 +1,7 @@
 package com.clearvision.spectrum.service;
 
+import com.clearvision.spectrum.config.SecurityConfiguration;
+import com.clearvision.spectrum.model.master.Company;
 import org.assertj.core.api.StrictAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,14 +10,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import com.clearvision.spectrum.config.SecurityConfiguration;
-import com.clearvision.spectrum.model.master.Company;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * UserServiceTest.
@@ -23,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Zakir Magdum
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ComponentScan(basePackages = "org.zama.examples.multitenant.service")
+@ComponentScan(basePackages = "com.clearvision.spectrum.service")
 @SpringApplicationConfiguration(classes = {RepositoryConfiguration.class, SecurityConfiguration.class})
 @Transactional("masterTransactionManager")
 public class UserServiceTest {

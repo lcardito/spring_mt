@@ -33,7 +33,7 @@ import java.util.Properties;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "masterEntityManager",
         transactionManagerRef = "masterTransactionManager",
-        basePackages = {"org.zama.examples.multitenant.repository.master"})
+        basePackages = {"com.clearvision.spectrum.repository.master"})
 @EnableTransactionManagement
 public class DatabaseConfiguration {
     private final static Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
@@ -85,7 +85,7 @@ public class DatabaseConfiguration {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"org.zama.examples.multitenant.model.master"});
+        em.setPackagesToScan(new String[]{"com.clearvision.spectrum.model.master"});
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalJpaProperties());
 

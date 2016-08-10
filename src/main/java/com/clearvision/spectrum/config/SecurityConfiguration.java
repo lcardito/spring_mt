@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author Zakir Magdum
  */
 @Configuration
-@ComponentScan("org.zama.examples.multitenant.service")
+@ComponentScan("com.clearvision.spectrum.service")
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource

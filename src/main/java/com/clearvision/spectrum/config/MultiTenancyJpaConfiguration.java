@@ -27,12 +27,12 @@ import java.util.Map;
  * @author Zakir Magdum
  */
 @Configuration
-@ComponentScan("org.zama.examples.multitenant.confighelper")
+@ComponentScan("com.clearvision.spectrum.confighelper")
 @EnableConfigurationProperties(JpaProperties.class)
 @EnableJpaRepositories(
         entityManagerFactoryRef = "tenantEntityManager",
         transactionManagerRef = "tenantTransactionManager",
-        basePackages = {"org.zama.examples.multitenant.repository.tenant"})
+        basePackages = {"com.clearvision.spectrum.repository.tenant"})
 @EnableTransactionManagement
 public class MultiTenancyJpaConfiguration {
     @Bean
