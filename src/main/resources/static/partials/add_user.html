@@ -1,0 +1,119 @@
+<spectrum-heading title="Add user"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+			<div class="alert alert-danger" role="alert" ng-if="errors.length > 0">
+				<div ng-repeat="error in errors"><strong>Error!</strong> {{error}} <br/></div>
+			</div>
+		</div>
+	</div>
+	<form name="createForm" ng-submit="createForm.$valid && createUser()">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">User details</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6">
+								<h3 class="pull-up">Login details</h3>
+								<div class="form-group">
+									<label for="txt-spec-newUser-userName" required>Username *</label>
+									<input type="text" class="form-control" id="txt-spec-newUser-userName" name="userName"
+									       ng-minlength="3" ng-maxlength="255" ng-model="userName" placeholder="User Name"
+									       required autofocus/>
+									<span class="error text-danger" ng-show="createForm.userName.$error.required">Required!</span>
+									<span class="error text-danger" ng-show="createForm.userName.$error.minlength">
+										This username is too short!
+									</span>
+									<span class="error text-danger" ng-show="createForm.userName.$error.maxlength">
+										This username is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-newUser-password" required>Password *</label>
+									<input type="password" class="form-control" id="txt-spec-newUser-password" name="password"
+									       ng-model="password" ng-minlength="8" ng-maxlength="50" placeholder="Password"
+									       required />
+									<span class="error text-danger" ng-show="createForm.password.$error.required">Required!</span>
+									<span class="error text-danger" ng-show="createForm.password.$error.minlength">
+										This password is too short!
+									</span>
+									<span class="error text-danger" ng-show="createForm.password.$error.maxlength">
+										This password is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-newUser-confirmPassword" required>Confirm password *</label>
+									<input type="password" class="form-control" id="txt-spec-newUser-confirmPassword"
+									       name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password" />
+								</div>
+							</div>
+							<div class="col-md-offset-6">
+								<hr class="vertical-line"/>
+							</div>
+							<div class="col-md-6">
+								<h3 class="pull-up">Personal details</h3>
+								<div class="form-group">
+									<label for="txt-spec-newUser-firstName" required>First name *</label>
+									<input type="text" class="form-control" id="txt-spec-newUser-firstName" name="firstName"
+									       ng-minlength="1" ng-maxlength="255" ng-model="firstName"
+									       placeholder="First Name"
+									       required />
+									<span class="error text-danger" ng-show="createForm.firstName.$error.required">Required!</span>
+									<span class="error text-danger" ng-show="createForm.firstName.$error.minlength">
+										This first name is too short!
+									</span>
+									<span class="error text-danger" ng-show="createForm.firstName.$error.maxlength">
+										This first name is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-newUser-lastName" required>Last name *</label>
+									<input type="text" class="form-control" id="txt-spec-newUser-lastName" name="lastName"
+									       ng-minlength="2" ng-maxlength="255" ng-model="lastName" placeholder="Last Name"
+									       required/>
+									<span class="error text-danger" ng-show="createForm.lastName.$error.required">Required!</span>
+									<span class="error text-danger" ng-show="createForm.lastName.$error.minlength">
+										This last name is too short!
+									</span>
+									<span class="error text-danger" ng-show="createForm.lastName.$error.maxlength">
+										This last name is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-newUser-email">Email</label>
+									<input type="email" class="form-control" name="email" id="txt-spec-newUser-email"
+									       ng-model="email" placeholder="Email" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1 form-group">
+				<input type="checkbox" id="ckbx-spec-newUser-active" name="active" ng-model="active"/>
+				<label for="ckbx-spec-newUser-active">Active</label>
+			</div>
+			<div class="col-md-2 form-group">
+				<input type="checkbox" id="ckbx-spec-newUser-admin" name="role"
+				       ng-model="role" ng-true-value="ROLE_ADMIN" ng-false-value="ROLE_USER"/>
+				<label for="ckbx-spec-newUser-admin">Administrator</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 form-group">
+				<button type="submit" class="btn btn-primary" id="btn-spec-newUser-submit">Add</button>
+				<button type="button" class="btn btn-default" id="btn-spec-newUser-cancel" onclick="history.back();">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

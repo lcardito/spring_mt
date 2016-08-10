@@ -1,0 +1,320 @@
+<spectrum-heading title="Create a Project"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+		</div>
+	</div>
+
+	<!-- main row -->
+	<div class="row">
+		<!-- applications -->
+		<div class="col-md-12">
+			<div class="panel" ng-class="appSubmitted ? 'panel-success' : 'panel-default'">
+				<div ng-if="!appSubmitted"
+					 class="panel-heading">
+					<h3 class="panel-title">Applications</h3>
+				</div>
+				<div ng-if="appSubmitted"
+					 class="panel-heading clearfix"
+					 data-toggle="collapse"
+					 data-target="#panel-spec-projects-apps"
+					 ng-click="changeIcon('panel-spec-projects-apps-header-icon')">
+					<h3 class="panel-title pull-left">Applications</h3>
+					<span id="panel-spec-projects-apps-header-icon" class="pull-right glyphicon glyphicon-plus"></span>
+				</div>
+				<div class="collapse" id="panel-spec-projects-apps">
+					<div class="panel-body">
+							<table class="table">
+								<thead>
+								<tr>
+									<th>Name</th>
+									<th>Status</th>
+									<th>Type</th>
+									<th>Select</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="eachApp in apps | orderBy: 'status'" ng-class="{warning: eachApp.isDisabled}">
+										<td>{{eachApp.name}}</td>
+										<td>{{eachApp.status}}</td>
+										<td>{{eachApp.type}}</td>
+										<td><input type="checkbox" ng-model="eachApp.selected"
+												   ng-disabled="eachApp.isDisabled"
+												   ng-change="changeApp($event)"
+												   id="checkbox-application-app-{{eachApp.id}}">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					<div class="panel-footer">
+						<button type="button" class="btn btn-primary" ng-click="checkApps($event)"
+								id="btn-spec-project-select-apps-continue">
+							Continue
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- application settings -->
+		<div class="col-md-12">
+			<div class="panel" ng-class="appSettingsSubmitted ? 'panel-success' : 'panel-default'">
+				<div ng-if="!appSettingsSubmitted"
+					 class="panel-heading">
+					<h3 class="panel-title">Application Settings</h3>
+				</div>
+				<div ng-if="appSettingsSubmitted"
+					 class="panel-heading clearfix"
+					 data-toggle="collapse"
+					 data-target="#panel-spec-projects-app-settings"
+					 ng-click="changeIcon('panel-spec-projects-app-settings-header-icon')">
+					<h3 class="panel-title pull-left">Application Settings</h3>
+					<span id="panel-spec-projects-app-settings-header-icon" class="pull-right glyphicon glyphicon-plus"></span>
+				</div>
+				<div class="collapse" id="panel-spec-projects-app-settings">
+					<div class="panel-body">
+						<div ng-repeat="eachApp in apps | orderBy: 'status'">
+							<div ng-if="eachApp.selected">
+								<h3>{{eachApp.name}}</h3>
+								<span class="logo icon-{{eachApp.type.toLowerCase()}}"></span>
+								<br /><br />
+								<div ng-switch="eachApp.type">
+									<div ng-switch-when="JIRA">
+										<div ng-show="eachApp.jiraTemplates != null">
+											<label for="select-spec-projects-jira-template-{{eachApp.id}}">JIRA
+												Project Template
+											</label>
+											<select ng-model="eachApp.jiraTemplateModuleKey" name="adminGroup"
+													id="select-spec-projects-jira-template-{{eachApp.id}}"
+													ng-options="jiraTemplate.projectTemplateModuleKey as jiraTemplate.name for jiraTemplate in eachApp.jiraTemplates | orderBy: 'name'"
+													ng-show="!createNewAdminGroup"
+													ng-change="changeAppSettings($event)"
+													required="required">
+												<option value="">--Select Template--</option>
+											</select>
+										</div>
+									</div>
+									<div ng-switch-when="Confluence">
+										<label for ="radio-confluence-create-space-{{eachApp.id}}">
+											<input type="radio"
+                                                   ng-model="eachApp.createSpace"
+                                                   ng-value="true"
+                                                   ng-change="changeAppSettings($event)"
+											       id="radio-confluence-create-space-{{eachApp.id}}">
+											Create New Space
+										</label><br/>
+										<label for="radio-confluence-select-existing-space-{{eachApp.id}}">
+											<input type="radio"
+												   ng-model="eachApp.createSpace"
+												   ng-value="false"
+												   ng-change="changeAppSettings($event)"
+											       id="radio-confluence-select-existing-space-{{eachApp.id}}">
+											Select Existing Space
+										</label><br/>
+										<div ng-show="!eachApp.createSpace">
+
+											<abn-tree
+													on-select = "getChildPages(branch)"
+													tree-data="eachApp.spaceData"
+													tree-control="name"
+													icon-leaf="icon-plus-sign"
+                                                    expand-level="1024"
+													id="confluence-page-tree-{{eachApp.id}}">
+											</abn-tree>
+										</div>
+									</div>
+									<div ng-switch-default>
+										No configuration settings for this app type.
+									</div>
+								</div>
+								<hr/>
+							</div>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<button type="button" class="btn btn-primary" ng-click="checkAppSettings($event)"
+								id="btn-spec-project-select-app-settings-continue">
+							Continue
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- project details -->
+		<div class="col-md-12">
+			<div class="panel" ng-class="detailsSubmitted ? 'panel-success' : 'panel-default'">
+				<div ng-if="!detailsSubmitted"
+				     class="panel-heading">
+					<h3 class="panel-title">Project Details</h3>
+				</div>
+				<div ng-if="detailsSubmitted"
+				     class="panel-heading clearfix"
+				     data-toggle="collapse"
+				     data-target="#panel-spec-projects-details"
+				     ng-click="changeIcon('panel-spec-projects-details-header-icon')">
+					<h3 class="panel-title pull-left">Project Details</h3>
+					<span id="panel-spec-projects-details-header-icon" class="pull-right glyphicon glyphicon-plus"></span>
+				</div>
+				<div class="collapse" id="panel-spec-projects-details">
+					<div class="panel-body">
+							<label for="txt-spec-project-name">Project Name<br />
+							<small style="font-weight: normal">
+							Please note this will be used as the page title when using Confluence, and these need to be unique within a space too
+							</small>
+							</label>
+							<br />
+							<input type="text" id="txt-spec-project-name" ng-model="name" style="width:50%"
+							       ng-keyup="projectKeyKeyUp()">
+					</div>
+					<div class="panel-body">
+						<label for="txt-spec-project-key">Project Key<br />
+							<small style="font-weight: normal">
+								Max 10 characters and no spaces or special characters
+							</small>
+						</label></br>
+					<input type="text" id="txt-spec-project-key" ng-model="key" style="width:50%"
+					       ng-keyup="projectKeyKeyUp()">&nbsp;<span id="project-key-validated" class="glyphicon"></span>
+					</div>
+
+					<div class="panel-footer">
+						<button type="button" class="btn btn-primary" ng-click="submitDetails($event, true)"
+						        id="btn-spec-project-details-continue">
+							Continue
+						</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		<!-- /project details -->
+
+		<!-- privileges -->
+		<div class="col-md-12">
+			<div class="panel" ng-class="privilegesSubmitted ? 'panel-success' : 'panel-default'">
+				<div ng-if="!privilegesSubmitted"
+				     class="panel-heading">
+					<h3 class="panel-title">Privileges</h3>
+				</div>
+				<div ng-if="privilegesSubmitted"
+				     class="panel-heading clearfix"
+				     data-toggle="collapse"
+				     data-target="#panel-spec-projects-users"
+				     ng-click="changeIcon('panel-spec-projects-privilages-header-icon')">
+					<h3 class="panel-title pull-left">Privileges</h3>
+					<span id="panel-spec-projects-privilages-header-icon"
+					      class="pull-right glyphicon glyphicon-plus"></span>
+				</div>
+				<div class="collapse" id="panel-spec-projects-users">
+					<div class="panel-body">
+						<!-- admin group -->
+						<div class="form-group">
+							<label for="select-spec-projects-usergroups-admin"><span ng-if="!createNewAdminGroup">Clone </span>Admin Group<span ng-if="!createNewAdminGroup"> From</span></label>
+							<select ng-model="adminGroupId" name="adminGroup"
+							        id="select-spec-projects-usergroups-admin"
+							        ng-options="group.id as group.name for group in adminGroupOptions | orderBy: 'name'"
+									ng-show="!createNewAdminGroup">
+								<option value="">
+									{{createNewAdminGroup ? '-- Create a Group --' : '-- Select a Group --'}}
+								</option>
+							</select>
+							<span ng-if="!createNewAdminGroup"> or </span>
+							<button ng-show="!createNewAdminGroup"
+							        class="btn btn-xs btn-success"
+							        ng-click="newAdminGroupNeeded()"
+							        data-toggle="collapse"
+							        data-target="#collapse-spec-projects-users-admins-new"
+							        id="btn-spec-project-select-adminusers">
+								<span class="glyphicon glyphicon-plus"></span>
+								Create a New Group
+							</button>
+							<div ng-if="adminUsersInGroup">
+								<h3>Members</h3>
+								<ul>
+									<li ng-repeat="user in adminUsersInGroup | orderBy: 'firstName'">{{user.firstName}} {{user.lastName}} ({{user.name}})
+								</ul>
+							</div>
+							<div class="collapse" id="collapse-spec-projects-users-admins-new">
+								<div class="form-group">
+									<spectrum-selector id="sel-spec-admin-users"
+									                   unselected-heading="Available Users"
+									                   selected-heading="Selected Users"
+									                   button-help="Select your admin users"
+									                   unselected-items="availableAdminUsers"
+									                   selected-items="selectedAdminUsers">
+									</spectrum-selector>
+								</div>
+								<div class="form-group">
+									<button ng-click="createNewAdminGroup = false" data-toggle="collapse"
+									        data-target="#collapse-spec-projects-users-admins-new"
+									        class="btn btn-default">
+										Select Existing Group
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- /admin group -->
+						<hr/>
+						<!-- user group -->
+						<div class="form-group">
+							<label for="select-spec-projects-usergroups-users"><span ng-if="!createNewUserGroup">Clone </span>User Group<span ng-if="!createNewUserGroup"> From</span></label>
+							<select ng-model="userGroupId" name="userGroup"
+							        id="select-spec-projects-usergroups-users"
+							        ng-options="group.id as group.name for group in userGroupOptions | orderBy: 'name'"
+							        ng-show="!createNewUserGroup">
+								<option value="">
+									{{createNewUserGroup ? '-- Create a Group --' : '-- Select a Group --'}}
+								</option>
+							</select>
+							<span ng-if="!createNewUserGroup"> or </span>
+							<button ng-show="!createNewUserGroup"
+							        class="btn btn-xs btn-success"
+							        ng-click="newUserGroupNeeded()"
+							        data-toggle="collapse"
+							        data-target="#collapse-spec-projects-users-users-new"
+							        id="btn-spec-project-select-users">
+								<span class="glyphicon glyphicon-plus"></span>
+								Create a New Group
+							</button>
+							<div ng-if="usersInGroup">
+								<h3>Members</h3>
+								<ul>
+									<li ng-repeat="user in usersInGroup | orderBy: 'firstName'">{{user.firstName}} {{user.lastName}} ({{user.name}})
+								</ul>
+							</div>
+							<div id="user-group-users"></div>
+							<div class="collapse" id="collapse-spec-projects-users-users-new">
+								<div class="form-group">
+									<spectrum-selector id="sel-spec-users"
+									                   unselected-heading="Available Users"
+									                   selected-heading="Selected Users"
+									                   button-help="Select your users"
+									                   unselected-items="availableUsers"
+									                   selected-items="selectedUsers">
+									</spectrum-selector>
+								</div>
+								<div class="form-group">
+									<button ng-click="createNewUserGroup = false" data-toggle="collapse"
+									        data-target="#collapse-spec-projects-users-users-new"
+									        class="btn btn-default">
+										Select Existing Group
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- /user group -->
+					</div>
+					<div class="panel-footer">
+						<input type="submit" class="btn btn-primary" id="btn-spec-project-save" value="Create Project"
+						       ng-click="createProject()" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /users in project -->
+
+		</div>
+	</div>

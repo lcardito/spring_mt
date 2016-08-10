@@ -1,0 +1,22 @@
+<spectrum-heading title="Projects" subtitle=""></spectrum-heading>
+
+<div class="container theme-showcase" role="main">
+	<spectrum-table id="tb-spec-projects"
+	                add-actions="addActions"
+	                headings="[{name: 'Name'}, {key: 'Key'}, {createdDate: 'Created'}, {jiraApp: 'JIRA'}, {confluenceApp: 'Confl'}, {bitbucketserverApp: 'BBS'}]"
+	                rows="projectRowModel.rows"
+	                orderable-columns="name, key, createdDate"
+	                order-by-initial="name"
+	                order-reverse-initial="false"
+	                empty-message="No projects found in Spectrum!"
+	                popover-rules="{name: {cutoff: '35', placement: 'right'}}"
+	                filterable="true"
+	                filterable-columns="['name', 'key']"
+	                filter-prompt="Search project names"
+	                filter-applied="projectRowModel.filterApplied"
+	                row-description-singular="project"
+	                row-description-plural="projects"
+	                picture-columns="['jiraApp', 'confluenceApp', 'bitbucketserverApp']"
+					elements-total-length="projectRowModel.rows.totalLength">
+	</spectrum-table>
+</div>

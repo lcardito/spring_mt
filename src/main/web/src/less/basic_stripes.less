@@ -1,0 +1,58 @@
+
+//this is a really basic replacment for the striped banner : this replacment is fixed width,
+//Ideally this would be looped out but i have not found a way to do this in less
+.basic_stripes(){
+
+  @colours: @s-red, @s-orange, @s-yellow, @s-green, @s-teal, @s-blue, @s-purple, @s-pink;
+
+  @deg: 90deg;
+  @amount: length(@colours);
+  @divide: ((100 / @amount) / 100);
+
+  background: @s-red;
+
+  background: -webkit-linear-gradient(@deg,
+    @s-red percentage((@divide*0)), @s-red percentage((@divide*(0+1))),
+    @s-orange percentage((@divide*1)), @s-orange percentage((@divide*(1+1))),
+    @s-yellow percentage((@divide*2)), @s-yellow percentage((@divide*(2+1))),
+    @s-green percentage((@divide*3)), @s-green percentage((@divide*(3+1))),
+    @s-teal percentage((@divide*4)), @s-teal percentage((@divide*(4+1))),
+    @s-blue percentage((@divide*5)), @s-blue percentage((@divide*(5+1))),
+    @s-purple percentage((@divide*6)), @s-purple percentage((@divide*(6+1))),
+    @s-pink percentage((@divide*7)),  @s-pink percentage((@divide*(7+1))),
+  );
+
+  background: -o-linear-gradient(@deg,
+    @s-red percentage((@divide*0)), @s-red percentage((@divide*(0+1))),
+    @s-orange percentage((@divide*1)), @s-orange percentage((@divide*(1+1))),
+    @s-yellow percentage((@divide*2)), @s-yellow percentage((@divide*(2+1))),
+    @s-green percentage((@divide*3)), @s-green percentage((@divide*(3+1))),
+    @s-teal percentage((@divide*4)), @s-teal percentage((@divide*(4+1))),
+    @s-blue percentage((@divide*5)), @s-blue percentage((@divide*(5+1))),
+    @s-purple percentage((@divide*6)), @s-purple percentage((@divide*(6+1))),
+    @s-pink percentage((@divide*7)),  @s-pink percentage((@divide*(7+1))),
+  );
+
+  background: -moz-linear-gradient(@deg,
+    @s-red percentage((@divide*0)), @s-red percentage((@divide*(0+1))),
+    @s-orange percentage((@divide*1)), @s-orange percentage((@divide*(1+1))),
+    @s-yellow percentage((@divide*2)), @s-yellow percentage((@divide*(2+1))),
+    @s-green percentage((@divide*3)), @s-green percentage((@divide*(3+1))),
+    @s-teal percentage((@divide*4)), @s-teal percentage((@divide*(4+1))),
+    @s-blue percentage((@divide*5)), @s-blue percentage((@divide*(5+1))),
+    @s-purple percentage((@divide*6)), @s-purple percentage((@divide*(6+1))),
+    @s-pink percentage((@divide*7)),  @s-pink percentage((@divide*(7+1))),
+  );
+
+  background: linear-gradient(@deg,
+    @s-red percentage((@divide*0)), @s-red percentage((@divide*(0+1))),
+    @s-orange percentage((@divide*1)), @s-orange percentage((@divide*(1+1))),
+    @s-yellow percentage((@divide*2)), @s-yellow percentage((@divide*(2+1))),
+    @s-green percentage((@divide*3)), @s-green percentage((@divide*(3+1))),
+    @s-teal percentage((@divide*4)), @s-teal percentage((@divide*(4+1))),
+    @s-blue percentage((@divide*5)), @s-blue percentage((@divide*(5+1))),
+    @s-purple percentage((@divide*6)), @s-purple percentage((@divide*(6+1))),
+    @s-pink percentage((@divide*7)),  @s-pink percentage((@divide*(7+1))),
+  );
+
+}

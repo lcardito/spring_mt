@@ -1,0 +1,28 @@
+<h1>
+    {{model.title}}
+  <span class="pull-right">
+    <a href="" ng-if="editMode" title="Add new widget" ng-click="addWidgetDialog()" id="dashboardAddWidget">
+        <i class="glyphicon glyphicon-plus-sign"></i>
+    </a>
+
+    <a href="" ng-if="editMode" title="Edit dashboard" ng-click="editDashboardDialog()">
+        <i class="glyphicon glyphicon-cog"></i>
+    </a>
+<!--
+    <a href="" ng-if="editMode" title="Reset Dashboard" ng-click="$root.$broadcast('resetDashboardTriggered'); toggleEditMode()">
+        <i class="glyphicon glyphicon-retweet"></i>
+    </a>
+-->
+    <a href="" ng-if="editMode" title="Undo changes" ng-click="cancelEditMode()" id="dashboardCancelEdit">
+        <i class="glyphicon glyphicon-floppy-remove"></i>
+    </a>
+
+    <a href="" ng-if="options.editable" title="{{editMode ? 'Save changes' : 'Enable edit mode'}}" ng-click="toggleEditMode()" id="dashboardEditToggle">
+        <i class="glyphicon" x-ng-class="{'glyphicon-edit' : !editMode, 'glyphicon-floppy-saved' : editMode}"></i>
+    </a>
+
+    <a href="" title="Auto refresh dashboard" ng-click="$root.$broadcast('adfAutoRefreshButtonClicked')">
+        <i class="glyphicon glyphicon-time adf-flip"></i>
+    </a>
+  </span>
+</h1>

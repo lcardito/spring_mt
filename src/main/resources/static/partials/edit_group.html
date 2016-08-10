@@ -1,0 +1,105 @@
+<spectrum-heading title="{{title}}"
+                  subtitle="{{group.external ? 'External' : 'Spectrum'}} group"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+			<div class="alert alert-danger" role="alert" ng-if="errors.length > 0">
+				<div ng-repeat="error in errors"><strong>Error!</strong> {{error}} <br/></div>
+			</div>
+			<div class="alert alert-success" role="alert" ng-if="successMsg">
+				<strong>Success!</strong> {{successMsg}}
+			</div>
+		</div>
+	</div>
+	<div ng-if="!group.external" class="col-md-offset-11 pull-right">
+		<div class="dropdown form-group">
+			<button class="btn btn-default dropdown-toggle" type="button"
+			        id="dropdown-spec-editGroup-manage-toggle" data-toggle="dropdown" aria-expanded="true">
+				<span class="glyphicon glyphicon-cog"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-spec-editGroup-manage-toggle">
+				<li>
+					<a id="btn-spec-editGroup-manage-delete" ng-click="deleteGroup(group.id)">
+						<span class="glyphicon glyphicon-trash"></span>
+						Delete Group
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<form name="editForm" ng-submit="editForm.$valid && editGroup(group.id)">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Group details</h3>
+					</div>
+					<div class="panel-body form-group">
+						<label for="txt-spec-editGroup-name" required>Group name *</label>
+						<input type="text" class="form-control" id="txt-spec-editGroup-name" name="groupName"
+						       ng-minLength="3" ng-maxlength="50" ng-model="group.name" placeholder="Group name"
+						       autofocus required ng-disabled="group.external"/>
+						<span class="error text-danger" ng-show="editForm.groupName.$error.required">Required!</span>
+						<span class="error text-danger" ng-show="editForm.groupName.$error.minlength">
+							This name is too short!
+						</span>
+						<span class="error text-danger" ng-show="editForm.groupName.$error.maxlength">
+							This name is too long!
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1 form-group">
+				<input type="checkbox" id="ckbx-spec-editGroup-active" name="active" ng-model="group.active"
+						ng-disabled="group.external"/>
+				<label for="ckbx-spec-editGroup-active">Active</label>
+			</div>
+			<div class="col-md-3 form-group">
+				<input type="checkbox" id="ckbx-spec-editGroup-admin" name="role" ng-model="group.role"
+				       ng-true-value="ROLE_ADMIN" ng-false-value="ROLE_USER" />
+				<label for="ckbx-spec-editGroup-admin">Make all members administrators</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 form-group">
+				<input type="submit" class="btn btn-primary" id="btn-spec-editGroup-submit" value="Update" />
+				<button type="button" class="btn btn-default" id="btn-spec-editGroup-cancel" onclick="history.back();">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</form>
+	<hr/>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						Users in group
+					</h3>
+				</div>
+				<div class="panel-body">
+					<spectrum-selector id="sel-spec-users"
+					                   unselected-heading="Available users"
+					                   selected-heading="Selected users"
+					                   button-help="Use these buttons to change the users belonging to this group (you can also double click)"
+					                   unselected-items="availableUsers"
+					                   selected-items="selectedUsers">
+					</spectrum-selector>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5 form-group">
+			<button class="btn btn-primary" id="btn-spec-editGroup-submitUsers" ng-click="changeGroupUsers(group.id);">
+				Update users
+			</button>
+		</div>
+	</div>
+</div>

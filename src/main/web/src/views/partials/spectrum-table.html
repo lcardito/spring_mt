@@ -1,0 +1,251 @@
+<div ng-if="gridStyle !== 'icon'" class="row">
+
+	<div class="col-xs-12">
+		<pagination
+				id="{{id}}-pagination"
+				ng-if="pageChanged && elementsTotalLength / pagination.itemsPerPage > 1"
+				class="pagination-sm widget-pagination pull-right"
+				ng-model="pagination.currentPage"
+				total-items="elementsTotalLength"
+				items-per-page="pagination.itemsPerPage"
+				max-size="pagination.maxPaginationSize"
+				boundary-link-numbers="true"
+				rotate="false"
+				previous-text="&lsaquo;"
+				next-text="&rsaquo;"
+				ng-change="pageChanged(pagination.currentPage)">
+		</pagination>
+	</div>
+
+	<div class="col-xs-6">
+		<div ng-if="addActions && addActions.length !== undefined" class="dropdown form-group">
+			<button class="btn btn-sm btn-success dropdown-toggle" type="button"
+			        id="dropdown-spec-{{idSuffix}}-add-actions-toggle" data-toggle="dropdown" aria-expanded="true">
+				<span class="glyphicon glyphicon-plus"></span>
+				{{addActionsTitle !== '' && addActionsTitle !== undefined ? addActionsTitle : 'Add'}}
+			</button>
+
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdown-spec-{{idSuffix}}-addactions-toggle">
+				<li ng-repeat="addAction in addActions" ng-class="addAction.run ? '' : 'divider'"
+				    id="btn-spec-{{idSuffix}}-add-actions-{{addAction.name.split(' ').join('-').toLowerCase()}}">
+					<a ng-click="actionClicked(addAction)" ng-if="addAction.run">
+						<span class="glyphicon glyphicon-{{addAction.icon}}"></span>
+						{{addAction.name}}
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div ng-if="addActions && addActions.length === undefined" class="form-group">
+			<a class="btn btn-sm btn-success" ng-click="actionClicked(addActions)" id="btn-spec-{{idSuffix}}-add-action">
+				<span class="glyphicon glyphicon-{{addActions.icon}}"></span>
+				{{addActions.name}}
+			</a>
+		</div>
+	</div>
+
+	<div ng-if="!gridMode && rowDescriptionPlural" class="col-xs-4 pull-right">
+		<form id="tb-spec-{{idSuffix}}-filter-form" name="filterForm" ng-if="filterable && !isSelectorTable">
+			<div class="input-group">
+				<input id="tb-spec-{{idSuffix}}-filter" class="form-control" type="text" name="filter"
+				       placeholder="{{filterPrompt}}" ng-model="filter.text" ng-change="filterApplied(filter.text)"
+				       ng-maxlength="200"/>
+				<span class="input-group-btn">
+					<button id="tb-spec-{{idSuffix}}-filter-button" class="btn btn-default" type="submit"
+					        ng-click="filterApplied(filter.text)">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</div>
+		</form>
+		<div class="row">
+			<div class="error text-danger col-xs-4">
+				<span id="tb-spec-{{idSuffix}}-filter-too-long-error" ng-show="filterForm.filter.$error.maxlength">
+					<small>
+						Filter is too long!
+					</small>
+				</span>
+			</div>
+			<div id="tb-spec-{{idSuffix}}-filter-row-count" class="text-right col-xs-8"
+			     ng-if="rows.length > 0 && elementsTotalLength">
+				<small>
+					<strong>{{rows.length}}</strong> of {{elementsTotalLength}} {{rowDescriptionPlural}}
+				</small>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="filterable && isSelectorTable" class="col-xs-12">
+		<form id="tb-spec-{{idSuffix}}-filter-form" name="filterForm">
+			<div class="input-group">
+				<input id="tb-spec-{{idSuffix}}-filter" class="form-control input-sm" type="text" name="filter"
+				       placeholder="{{filterPrompt}}" ng-model="filter.text" ng-change="filterApplied(filter.text)"
+				       ng-maxlength="200"/>
+				<span class="input-group-btn">
+					<button id="tb-spec-{{idSuffix}}-filter-button" class="btn btn-sm btn-link" type="submit"
+					        ng-click="filterApplied(filter.text)">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</div>
+		</form>
+	</div>
+
+	<div ng-if="gridModeSelectable" class="col-xs-2 pull-right">
+		<div class="btn-group btn-group-xs pull-right form-group" role="group">
+			<button type="button" class="btn btn-default {{gridMode ? 'btn-default' : 'btn-primary'}}"
+			        ng-click="switchGridMode()"
+			        id="btn-spec-apps-list-view">
+				<span class="state glyphicon glyphicon-th-list"></span>
+			</button>
+			<button type="button" class="btn btn-default {{gridMode ? 'btn-primary' : 'btn-default'}}"
+			        ng-click="switchGridMode()"
+			        id="btn-spec-apps-grid-view">
+				<span class="state glyphicon glyphicon-th-large"></span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<div ng-if="rows === undefined || rows.length === 0" class="spec-help-class" id="info-spec-{{idSuffix}}-empty-message">
+	<p class="text-info bg-info">
+		<span class="glyphicon glyphicon-info-sign"></span>
+		{{emptyMessage}}
+	</p>
+</div>
+
+<div ng-if="gridMode">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="spectrum-table {{gridStyle}}">
+				<span ng-repeat="row in rows"
+					  ng-mouseenter="mouseEnteredGridBox($event.target, row)"
+					  ng-mouseleave="mouseLeftGridBox($event.target, row)"
+					  class="tb-spec-grid-item box col-md-2 col-xs-{{gridStyle === 'icon' ? '4' : '2'}}"
+					  ng-style="{'background-color': '#' + row.data[gridColourColumn]}">
+					<a ng-href="{{row.url}}" target="{{row.external ? '_blank' : '_self'}}" class="box-contents">
+						<div id="div-spec-{{idSuffix}}-row-{{$index}}">
+							<span class="state glyphicon glyphicon-{{row.data[gridStatusIconColumn]}}"></span>
+							<span ng-if="gridStyle !== 'icon'">
+								<span class="logo icon-{{row.data[gridPictureColumn]}}"></span>
+								<h5 class="logo-name heading-spec-grid-item-name">{{row.data[gridTextColumn]}}</h5>
+							</span>
+							<span ng-if="gridStyle === 'icon'">
+								<span class="icon glyphicon glyphicon-{{row.data[gridPictureColumn]}}"></span>
+								<h5 class="text" id="heading-spec-grid-item-text">{{row.data[gridTextColumn]}}</h5>
+							</span>
+						</div>
+					</a>
+					<div class="dropdown" style="" ng-if="hasActions">
+						<button class="btn btn-xs btn-default dropdown-toggle" type="button"
+						        id="dropdown-spec-{{idSuffix}}-actions-{{$index}}-toggle"
+						        data-toggle="dropdown"
+						        aria-expanded="true"
+						        ng-click="gridDropDownClicked($event)">
+							<span class="glyphicon glyphicon-cog"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu"
+						    aria-labelledby="dropdown-spec-{{idSuffix}}-actions-{{$parent.$index}}-toggle">
+					<li ng-repeat="action in row.actions" ng-class="action.run ? '' : 'divider'"
+					    id="btn-spec-{{idSuffix}}-actions-{{$parent.$index}}-{{action.name.split(' ').join('-').toLowerCase()}}">
+						<a ng-if="action.run" ng-click="actionClicked(action, row)">
+									<span class="glyphicon glyphicon-{{action.icon}}"></span>
+									{{action.name}}
+								</a>
+							</li>
+						</ul>
+					</div>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<table id="st-{{id}}" ng-if="!gridMode && rows.length > 0" class="table {{!isSelectorTable ? 'table-striped' : '' }} {{extraTableClasses}}">
+	<thead ng-if="!isSelectorTable">
+		<tr id="tb-spec-{{idSuffix}}-headings">
+            <th ng-if="checkableColumns">
+                Status
+            </th>
+			<th ng-repeat="heading in headingMap" id="tb-spec-{{idSuffix}}-heading-{{heading.propertyName}}"
+			    ng-click="changeTableOrder(heading.propertyName)" ng-class="orderableColumns.indexOf(heading.propertyName) > -1 ? 'canorder' : ''">
+				{{heading.displayName}}
+				<span ng-show="orderableColumns.indexOf(heading.propertyName) > -1 && rows.length > 1 && orderBy == heading.propertyName"
+				      class="glyphicon glyphicon-chevron-{{shouldReverse ? 'down' : 'up'}}"></span>
+			</th>
+			<th ng-if="hasActions" class="col-xs-1 management" id="tb-spec-{{idSuffix}}-heading-manage" style="text-align:center">
+				Manage
+			</th>
+		</tr>
+	</thead>
+	<tbody ng-style="{'spectrum-table-updating' : updateInProgress}">
+		<tr ng-repeat="row in rows | orderBy : getSortValue() : shouldReverse"
+		    id="tb-spec-{{idSuffix}}-row-{{$index}}" class="spectrum-table-item {{row.isSelected ? 'info': ''}} {{row.checked ? 'inactive-row': ''}}"
+		    ng-click="itemClicked(row)" ng-dblclick="itemDoubleClicked(row)" ng-mouseenter="itemEntered($event, row)">
+
+            <td ng-if="checkableColumns">
+                <input id="spec-check-{{idSuffix}}-row-{{$index}}" type="checkbox" ng-model="row.checked" ng-change="row.updateTaskCallback(row.data)"/>
+            </td>
+
+			<td ng-repeat="heading in headingMap"
+			    class="break-word" id="td-spec-{{idSuffix}}-row-{{$parent.$index}}-{{heading.propertyName}}"
+			    ng-click="row.defaultAction ? actionClicked(row.defaultAction, row) : null">
+
+				<a ng-href="{{row.url}}" target="{{row.external ? '_blank' : '_self'}}">
+					<span ng-switch on="isPictureColumn(heading)">
+						<span ng-switch-when="true">
+							<span class="logo icon-{{row.data[heading.propertyName].toLowerCase()}}"></span>
+							<img ng-if="isImageColumn(heading)" ng-src="{{row.data[heading.propertyName].src}}" height="24px" width="24px" ng-alt="{{row.data[heading.propertyName].alt}}" title="{{row.data[heading.propertyName].alt}}" />
+						</span>
+						<span ng-switch-when="false">
+							<!-- SPEC-1702 We end up calling getCellData() multiple times because there isn't an easy way to assign
+								a value to a "local" variable in an angular template.  See the ticket for more discussion. -->
+							<span ng-if="getCellData(row, heading, row.data[heading.propertyName]).extendedText"
+								  ng-class="$index === 0 ? row.data.iconClass : ''"
+								  ng-bind-html="getCellData(row, heading, row.data[heading.propertyName]).baseText"
+								  spectrum-popover
+								  popover-text="{{getCellData(row, heading, row.data[heading.propertyName]).extendedText}}"
+								  popover-placement="{{getCellData(row, heading, row.data[heading.propertyName]).extendedPlacement}}">
+							</span>
+							<span ng-if="!getCellData(row, heading, row.data[heading.propertyName]).extendedText"
+								  ng-class="$index === 0 ? row.data.iconClass : ''"
+								  ng-bind-html="getCellData(row, heading, row.data[heading.propertyName]).baseText">
+							</span>
+						</span>
+					</span>
+				</a>
+			</td>
+			<td ng-if="hasActions && collapseActions" id="td-spec-{{idSuffix}}-row-{{$parent.$index}}-actions">
+				<div class="btn-group" style="left:35%">
+					<button class="btn btn-xs btn-default dropdown-toggle" type="button"
+					        id="dropdown-spec-{{idSuffix}}-actions-{{$parent.$index}}-toggle" data-toggle="dropdown"
+					        aria-expanded="true">
+						<span class="glyphicon glyphicon-cog"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right" role="menu"
+					    aria-labelledby="dropdown-spec-{{idSuffix}}-actions-{{$parent.$index}}-toggle">
+						<li ng-repeat="action in row.actions" ng-class="action.run || action.url ? '' : 'divider'"
+						    id="btn-spec-{{idSuffix}}-actions-{{$parent.$index}}-{{action.name.split(' ').join('-').toLowerCase()}}">
+							<a ng-click="actionClicked(action, row)"
+							   ng-if="action.run || action.url"
+							   ng-href="{{action.url}}"
+							   target="{{action.external ? '_blank' : '_self'}}">
+								<span class="glyphicon glyphicon-{{action.icon}}"></span>
+								{{action.name}}
+							</a>
+						</li>
+					</ul>
+				</div>
+			</td>
+			<td ng-if="hasActions && !collapseActions" id="td-spec-{{idSuffix}}-row-{{$parent.$index}}-action" style="text-align:center">
+				<div ng-repeat="action in row.actions">
+					<a class="btn btn-xs btn-{{action.class}}" target="{{action.external ? '_blank' : '_self'}}"
+					   ng-href="{{action.url}}" ng-click="actionClicked(action, row)"
+					   id="btn-spec-{{idSuffix}}-action-single-{{$parent.$index}}"
+					   style="text-align:left">
+						<span class="glyphicon glyphicon-{{action.icon}}"></span>
+						{{action.name}}
+					</a>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>

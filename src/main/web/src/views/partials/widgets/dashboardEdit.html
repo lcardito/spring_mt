@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="closeDialog()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Edit Layout</h4>
+</div>
+<div class="modal-body dashboard-layout-options">
+    <form role="form">
+        <div class="form-group">
+            <div class="dashboard-layout-icon" ng-repeat="(key, structure) in structures">
+                <input id="{{key}}" type="radio" value="{{key}}" ng-model="model.structure"
+                       ng-change="changeStructure(key, structure)">
+                <label style="background: url({{structure.iconUrl}});" for="{{key}}" tooltip="{{key}}"></label>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="closeDialog()">Close</button>
+</div>

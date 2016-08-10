@@ -1,0 +1,45 @@
+<spectrum-heading title="{{process.title}}" subtitle="Process Version Diff"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						Comparison of Process version: {{version.comment}} ({{version.versionKey.substring(0, 8)}})
+						with Process version: {{compareWithVersion.comment}} ({{compareWithVersion.versionKey.substring(0, 8)}})
+					</h3>
+				</div>
+				<div id="manifest-diff" class="panel-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div id="manifest-diff-key">
+								<h4>Key</h4>
+								<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								No change between process versions
+								<br/>
+								<del>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</del>
+								Deletion from {{version.comment}} ({{version.versionKey.substring(0, 8)}})
+								<br/>
+								<ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ins>
+								Addition to {{compareWithVersion.comment}} ({{compareWithVersion.versionKey.substring(0, 8)}})
+							</div>
+						</div>
+					</div>
+					<hr/>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel-group cv-accordion-first" id="accordion" role="tablist" bind-compile="manifestDiffData" aria-multiselectable="true"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

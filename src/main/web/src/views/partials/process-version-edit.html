@@ -1,0 +1,74 @@
+<spectrum-heading title="{{processVersion.title}}" subtitle="Edit version"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Details</h3>
+				</div>
+				<div class="panel-body">
+					<form name="editForm" ng-submit="editForm.$valid && updateProcessVersion(processVersion)">
+						<div class="form-group">
+							<label>Version</label>
+							<p class="form-control-static break-word">{{processVersion.versionKey}}</p>
+						</div>
+						<div class="form-group">
+							<label>Date created</label>
+							<p class="form-control-static break-word">{{processVersion.createDate | date:'medium'}}</p>
+						</div>
+						<div class="form-group">
+							<label>Created By</label>
+							<p class="form-control-static break-word">{{processVersion.createdBy}}</p>
+						</div>
+						<div class="form-group">
+							<label>Date updated</label>
+							<p class="form-control-static break-word">{{processVersion.updateDate | date:'medium'}}</p>
+						</div>
+						<div class="form-group">
+							<label>Updated By</label>
+							<p class="form-control-static break-word">{{processVersion.updatedBy}}</p>
+						</div>
+						<div class="form-group">
+							<label for="txt-spec-editVersion-comment">Version comment</label>
+							<textarea class="form-control spec-textarea" id="txt-spec-editVersion-comment"
+							          name="comment" rows="4" wrap="virtual" ng-model="processVersion.comment"
+							          ng-maxlength="4000" required>
+							</textarea>
+							<span class="error text-danger" ng-show="editForm.comment.$error.maxlength">
+								Version comment is too long
+							</span>
+							<span class="error text-danger" ng-show="editForm.comment.$error.required">
+								Version comment is a required field
+							</span>
+						</div>
+						<div class="form-group">
+							<label for="txt-spec-editVersion-description">Description</label>
+							<textarea class="form-control spec-textarea" id="txt-spec-editVersion-description"
+									  name="description" rows="4" wrap="virtual" ng-model="processVersion.description"
+									  ng-maxlength="4000">
+							</textarea>
+							<span class="error text-danger" ng-show="editForm.description.$error.maxlength">
+								Description is too long
+							</span>
+						</div>
+						<div class="form-group">
+							<input type="checkbox" id="ckbx-spec-editVersion-currentVersion" name="currentVersion"
+								   ng-model="processVersion.current"/> Set as current version</input>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-primary" id="btn-spec-editVersion-submit"
+								   value="Update" />
+							<input type="button" class="btn btn-default" id="btn-spec-editGroup-cancel"
+								   value="Cancel" onclick="history.back();"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

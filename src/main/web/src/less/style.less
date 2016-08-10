@@ -1,0 +1,61 @@
+// the following used to be copy:get_etx_css now part of our combined style.css output
+@import (inline) "../../bower_components/jquery-minicolors/jquery.minicolors.css";
+
+@import (inline) "../../node_modules/angular-bootstrap-nav-tree/dist/abn_tree.css";
+
+@import (inline) "../../bower_components/angular-dashboard-framework/dist/angular-dashboard-framework.css";
+
+@import (inline) "../../bower_components/jquery-ui/themes/base/jquery-ui.css";
+
+@import (inline) "../../bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css";
+
+@import (inline) "../../bower_components/angular-ui-select/dist/select.css";
+
+//dropdown select styling for choosen js
+@import "../../bower_components/bootstrap-chosen/bootstrap-chosen.less";
+
+
+// our mixins which are replacmenta for compass functions not avaliable in less
+@import "mixins.less";
+
+// a basic version of the theme header "rainbow" bar as less
+@import "basic_stripes.less";
+
+// If a colour is used on the site its defined here!
+@import "spectrum_colours.less";
+
+// seperated spinner incase it needs removal
+@import "spinner.less";
+
+// custom atlassian logos
+@import "iconmoon.less";
+
+// our variables overwritng default bootstrap variables where needed (compare with _bootstrap_variables.scss sass file)
+@import "variables.less";
+
+// adds standard bootstrap parts from bower repo, bootstrap_custom folder should be used if you want to change these defaults
+@import "bootstrap.less";
+
+// old css prior to spectrum 1.5 converted to sass then less, PLEASE remove and update if your working on post 1.5 and anything is not needed
+@import "historic_custom_debt.less";
+
+// CSS fixes to third party widgets we are using.
+@import "third_party_fixes.less";
+
+// angular dashboard framework styles
+@import "adf.less";
+
+// our custom sass used on spectrum
+@import "spectrum.less";
+
+// sprint progress bar
+@import "sprint_bar.less";
+
+// our custom sass used on spectrum
+@import "dropdown_multi_select.less";
+
+// styles for ui resizable
+@import "ui_resizable.less";
+
+// styles select.css to match our a-typical menu setup
+@import "select_custom.less";

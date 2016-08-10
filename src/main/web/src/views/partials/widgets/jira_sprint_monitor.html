@@ -1,0 +1,135 @@
+<spectrum-widget-loading widget="widget" ready="ready || widgetOptionsActive"></spectrum-widget-loading>
+<div ng-if="data.availableApps.length > 0 && (ready || widgetOptionsActive)">
+    <div class="widget-options">
+        <a role="button" ng-if="!widgetOptionsActive" ng-click="showWidgetOptions()" id="configure-widget-{{widget.wid}}">
+            <i class="glyphicon glyphicon-cog"></i>
+        </a>
+    </div>
+    <div class="collapse" id="widget-configuration-{{widget.wid}}">
+        <div class="well">
+            <form role="form" name="configEditForm" class="form-horizontal">
+                <spectrum-widget-common-options widget="widget" data="data" form="configEditForm"></spectrum-widget-common-options>
+
+                <div class="form-group">
+                    <label for="select-spec-jira-app-{{widget.wid}}" class="col-sm-4 control-label small">Instance</label>
+                    <div class="col-sm-6">
+                        <select id="select-spec-jira-app-{{widget.wid}}" class="appId form-control input-sm" ng-model="data.chosenApp"
+                                ng-options="app.optLabel=app.name for app in data.availableApps"
+                                ng-change="getBoardSprintList(false)"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="select-spec-jira-sprint-{{widget.wid}}" class="col-sm-4 control-label small">Sprint</label>
+                    <div class="col-sm-6">
+                        <select id="select-spec-jira-sprint-{{widget.wid}}" class="sprintId form-control input-sm" ng-model="data.chosenSprint"
+                                ng-options="sprint.optLabel=sprint.name for sprint in data.sprintList"
+                                ng-change="getSprintData(false)">
+                            <option value="" ng-if="data.sprintList.length == 0">-- No sprints found --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"></label>
+                    <div class="col-sm-6">
+                        <button class="btn btn-xs btn-primary {{data.sprintData.length == 0 ? 'disabled' : ''}}"
+                                ng-click="saveOptions(configEditForm)" id="configure-widget-{{widget.wid}}-save">
+                            <i class="glyphicon glyphicon-floppy-saved"></i>
+                            Save
+                        </button>
+                        <button class="btn btn-xs" id="btn-cancel-widget-options-{{widget.wid}}" ng-click="cancelOptions()">
+                            <i class="glyphicon glyphicon-remove"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div id="progress-bar-{{widget.wid}}" class="progress_holder">
+        <div class="row">
+            <div class="col-xs-6"><span>Sprint variance: <strong class="value_heat" data="55" style="color: #{{sprintData.varianceColour}};">{{sprintData.sprintVariance | number: 0}}% </strong></span></div>
+            <div class="col-xs-6"><p class="pull-right">Days remaining <strong>{{sprintData.remainingDays}}</strong></p></div>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success done" id="bar-done-{{widget.wid}}" ng-mouseover="onHoverSprintSection('done')"
+                 data-day="{{sprintData.donePercent}}" data-placement="bottom" title="Done" style="width: {{sprintData.donePercent}}%">
+                <span class="sr-only">{{sprintData.donePercent}}% Complete (success)</span>
+            </div>
+            <div class="progress-bar progress-bar-warning in_progress" id="bar-inprogress-{{widget.wid}}" ng-mouseover="onHoverSprintSection('inprogress')"
+                 data-day="{{sprintData.inProgressPercent}}" data-placement="bottom" title="In progress" style="width: {{sprintData.inProgressPercent}}%">
+                <span class="sr-only">{{sprintData.inProgressPercent}}% Complete (warning)</span>
+            </div>
+            <div class="progress-bar progress-bar-danger out_standing" id="bar-notstarted-{{widget.wid}}" ng-mouseover="onHoverSprintSection('notstarted')"
+                 data-day="{{sprintData.todoPercent}}" data-placement="bottom" title="To Do" style="width: {{sprintData.todoPercent}}%">
+                <span class="sr-only">{{sprintData.todoPercent}}% Complete (danger)</span>
+            </div>
+
+            <div class="progress-bar custom progress-bar-striped" data-day="{{sprintData.percentComplete}}" data-toggle="tooltip" data-placement="top" title="done" style="width: {{sprintData.percentComplete}}%">
+                <span class="sr-only">{{sprintData.percentComplete}}% Complete (danger)</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div ng-if="sprintData.currentDay == 0">
+                    <span class="pull-left">Day {{sprintData.currentDay}}</span>
+                </div>
+                <div ng-if="sprintData.currentDay != sprintData.totalDays && sprintData.currentDay != 0">
+                    <span style="position:relative; left:-25px;">
+                        <span style="position:relative; left:{{sprintData.percentComplete}}%;">Day {{sprintData.currentDay}}</span>
+                    </span>
+                </div>
+                <div ng-if="sprintData.currentDay == sprintData.totalDays">
+                    <span class="pull-right">Day {{sprintData.currentDay}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="false">
+            <div class="col-xs-12">
+                <div class="checkbox">
+                    <label><input class="exclude_progress" type="checkbox" data="progress-bar-{{widget.wid}}"
+                                  ng-model="sprintData.excludeInProgress" ng-change="generateSprintData()">Exclude In Progress</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="issues-{{widget.wid}}" style="display: none;">
+        <div class="row">
+            <div class="col-md-12">
+                <spectrum-table ng-if="ready" id="tb-spec-{{widget.wid}}"
+                                headings="[{icon: ''},
+                                           {key: 'Key'},
+                                           {summary: 'Name'},
+                                           {status: 'Status'},
+                                           {assignee: 'Assignee'},
+                                           {projectKey: 'Project'}]"
+                                rows="issuePopupTable.rows"
+                                order-by-initial="key"
+                                order-reverse-initial="false"
+                                popover-rules="{summary: {cutoff: '20', placement: 'bottom', suffix: '...'},
+                                    projectKey: {cutoff: '10', placement: 'bottom', suffix: '...'},
+                                    statusCategory: {cutoff: '12', placement: 'bottom', suffix: '...'}}"
+                                empty-message="No results"
+                                image-columns="['icon']"
+                                update-in-progress="issuePopupTable.updateInProgress"
+                                elements-total-length="issuePopupTable.rows.totalLength">
+                </spectrum-table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div ng-if="ready && data.availableApps.length === 0">
+    <h2>{{appType}} is not available</h2>
+    <hr />
+    <p>
+        Please ask your administrator to either add {{appType}} to Spectrum,
+        or to create an application link to an existing {{appType}}
+    </p>
+</div>

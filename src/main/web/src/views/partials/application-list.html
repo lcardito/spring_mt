@@ -1,0 +1,8 @@
+<spectrum-heading title="Applications"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="alert alert-success" ng-show="showLinkSuccessAlert">
+		<button type="button" class="close" data-ng-click="switchBool('showLinkSuccessAlert')">×</button>
+		<strong>Application has been linked with Spectrum</strong>
+	</div>
+	<application-table grid-mode="false" grid-mode-selectable="true" read-only="false"></application-table>
+</div>

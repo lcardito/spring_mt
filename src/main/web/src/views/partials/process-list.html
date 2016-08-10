@@ -1,0 +1,27 @@
+<spectrum-heading title="Processes"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<spectrum-table id="tb-spec-processes"
+					add-actions="addActions"
+					add-actions-title="Add a new process"
+					headings="[ {title: 'Title'},
+					            {description: 'Description'},
+					            {createDate: 'Date created'},
+					            {createdBy: 'Created By'},
+					            {updateDate: 'Last updated'},
+					            {updatedBy: 'Updated By'}]"
+					rows="processRowModel.rows"
+					orderable-columns="title, description, updateDate"
+					order-by-initial="title"
+					order-reverse-initial="false"
+					empty-message="No processes found in Spectrum."
+					popover-rules="{title: {cutoff: '35', placement: 'right', suffix: '...'},
+					                description: {cutoff: '35', placement: 'right', suffix: '...'}}"
+					filterable="true"
+					filterable-columns="['title', 'description']"
+					filter-prompt="Search processes"
+					filter-applied="processRowModel.filterApplied"
+					update-in-progress="processRowModel.updateInProgress"
+					row-description-plural="processes"
+					elements-total-length="processRowModel.rows.totalLength">
+	</spectrum-table>
+</div>

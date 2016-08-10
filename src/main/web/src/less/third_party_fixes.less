@@ -1,0 +1,60 @@
+
+//functions remove repetition
+.lvli(@l,@v){
+  .level-@{l} .indented{
+    left: ~'@{v}px';
+    position: relative;
+  }
+}
+
+.lvla(@l,@v){
+  .level-@{l} a{
+    padding-right: ~'@{v}px';
+  }
+}
+
+//File with some CSS fixes to third party widgets we are using.
+ul.nav{
+  .nav-list.abn-tree{
+    .lvli(10,180);
+    .lvli(11,200);
+    .lvli(12,220);
+    .lvli(13,240);
+    .lvli(14,260);
+    .lvli(15,280);
+    .lvli(16,300);
+    .lvli(17,320);
+    .lvli(18,340);
+    .lvli(19,360);
+    .lvli(20,380);
+
+    li{
+      .lvla(7,120);
+      .lvla(8,140);
+      .lvla(9,160);
+      .lvla(10,180);
+      .lvla(11,200);
+      .lvla(12,220);
+      .lvla(13,240);
+      .lvla(14,260);
+      .lvla(15,280);
+      .lvla(16,300);
+      .lvla(17,320);
+      .lvla(18,340);
+      .lvla(19,360);
+      .lvla(20,380);
+    }
+  }
+
+  //ABN Tree bounding-box overlap fix.
+  .abn-tree{
+    li{
+      .lvla(1,0);
+      .lvla(2,20);
+      .lvla(3,40);
+      .lvla(4,60);
+      .lvla(5,80);
+      .lvla(6,100);
+    }
+  }
+}

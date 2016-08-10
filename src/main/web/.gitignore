@@ -1,0 +1,6 @@
+node_modules/*
+bower_components/*
+src/jsp/build/*
+/.DS_Store
+node/
+karma_result/

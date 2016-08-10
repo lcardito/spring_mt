@@ -1,0 +1,94 @@
+<div class="modal" id="reset-dashboard-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Reset Dashboard</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spec-help-class">
+                    <p>
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        This will reset the current dashboard back to a default one. Are you sure?
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancelResetDashboard()">No</button>
+                <button type="button" class="btn btn-primary" ng-click="resetDashboard()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="dashboard-refresh-timer-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Dashboard Auto Refresh</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spec-help-class">
+                    <p>
+                        How often would you like the dashboard to automatically refresh?
+                        <br /><br />
+                        <input type="radio" name="refreshIntervalRadio" value="0" id="refresh-timer-0" checked="checked">
+                        <label for="refresh-timer-0">No Auto Refresh</label><br />
+                        <input type="radio" name="refreshIntervalRadio" value="1" id="refresh-timer-1">
+                        <label for="refresh-timer-1">Every 1 Minute</label><br />
+                        <input type="radio" name="refreshIntervalRadio" value="5" id="refresh-timer-5">
+                        <label for="refresh-timer-5">Every 5 Minutes</label><br />
+                        <input type="radio" name="refreshIntervalRadio" value="15" id="refresh-timer-15">
+                        <label for="refresh-timer-15">Every 15 Minute</label><br />
+                        <input type="radio" name="refreshIntervalRadio" value="30" id="refresh-timer-30">
+                        <label for="refresh-timer-30">Every Half Hour</label><br />
+                        <input type="radio" name="refreshIntervalRadio" value="60" id="refresh-timer-60">
+                        <label for="refresh-timer-60">Every Hour</label>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="setupRefreshTimer()">Save</button>
+                <button type="button" class="btn btn-default" ng-click="cancelDashboardRefreshModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container theme-showcase">
+    <div class="row">
+        <div class="col-md-12">
+			<br />
+			<div ng-if="activeTaskTimers && activeTaskTimers.length > 0" class="activeTaskTimers panel panel-default" style="margin-top: 10px">
+				<div class="panel-heading clearfix" style="background-color: #374049">
+					<h3 class="panel-title" style="color: #FFF;">Tasks In Progress</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-4">
+                            <div class="activeTaskTimerName" ng-mouseenter="showTaskPopoverIfNeeded($event)" ng-mouseleave="hideTaskPopover($event)">
+							    <em class="taskTimerRemoteId">{{ availableApps[activeTaskTimers[0].appId].name }}</em>:
+							    <a href="{{ availableApps[activeTaskTimers[0].appId].url }}/browse/{{ activeTaskTimers[0].remoteId }}" target="_blank" class="taskTimerRemoteId">{{ activeTaskTimers[0].remoteId }}{{ activeTaskTimers[0].summary ? ' / ' + activeTaskTimers[0].summary : '' }}</a>
+                            </div>
+						</div>
+						<div class="col-md-4">
+							<span id="timeSpentOnTask">Started recording {{data.prettyTimeSpentOnTask}}</span>
+						</div>
+						<div class="col-md-4">
+							<button type="button" class="btn btn-xs btn-default pull-right" ng-click="stopTaskTimer()">
+								<span class="glyphicon glyphicon-stop"></span> Stop recording
+							</button>
+						</div>
+					</div>
+
+				</div>
+            </div>
+            <adf-dashboard name="personalised-dashboard"
+                           id="personalised-dashboard"
+                           collapsible="false"
+                           editable="true"
+                           maximizable="false"
+                           enableConfirmDelete="false"
+                           adf-model="model" />
+        </div>
+    </div>
+</div>

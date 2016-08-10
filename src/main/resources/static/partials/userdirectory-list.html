@@ -1,0 +1,89 @@
+<spectrum-heading title="User directories"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+			<div class="alert alert-danger" role="alert" ng-if="errors.length > 0">
+				<div ng-repeat="error in errors"><strong>Error!</strong> {{error}} <br/></div>
+			</div>
+			<div class="alert alert-success" role="alert" ng-if="successMsg">
+				<strong>Success!</strong> {{successMsg}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<input type="checkbox" id="ckbx-spec-editUserDirectory-internal-active" checked disabled/>
+						Use Spectrum internal directory
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form name="editForm" ng-submit="editForm.$valid && save(userDirectory)">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title" ng-click="userDirectory.active = !userDirectory.active"
+						    style="cursor: default;">
+							<input type="checkbox" id="ckbx-spec-editUserDirectory-external-active" name="active"
+							       ng-model="userDirectory.active" ng-click="$event.stopPropagation()"/>
+							Use external directory
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="txt-spec-editUserDirectory-url">Url</label>
+							<input type="url" class="form-control" id="txt-spec-editUserDirectory-url" name="url"
+							       ng-model="userDirectory.url" required/>
+						</div>
+						<div class="form-group">
+							<label for="txt-spec-editUserDirectory-name">Application name</label>
+							<input type="text" class="form-control" id="txt-spec-editUserDirectory-name" name="name"
+							       ng-model="userDirectory.name" required/>
+						</div>
+						<div class="form-group">
+							<label for="txt-spec-editUserDirectory-newPassword">Application password</label>
+							<input type="password" class="form-control" id="txt-spec-editUserDirectory-newPassword"
+							       name="newPassword" ng-model="userDirectory.password" required="required"/>
+						</div>
+						<div class="form-group">
+							<label for="txt-spec-editUserDirectory-inputSyncInterval">Sync interval (minutes)</label>
+							<input type="number" min="1" step="1" class="form-control"
+							       id="txt-spec-editUserDirectory-inputSyncInterval" name="inputSyncInterval"
+							       ng-model="userDirectory.syncIntervalInMins" value={{userDirectory.syncIntervalInMins}}
+							       required="required"/>
+						</div>
+						<div class="form-group">
+							<input type="checkbox" id="ckbx-spec-editUserDirectory-ssoenabled" name="ssoenabled"
+							       ng-model="userDirectory.ssoenabled" value={{userDirectory.ssoenabled}}
+							       ng-click="$event.stopPropagation()"/>
+							<label for="ckbx-spec-editUserDirectory-ssoenabled">Enable Single Sign-On via Crowd</label>
+						</div>
+						<div class="form-group">
+							<label for="txt-spec-editUserDirectory-ssoDomain">SSO domain</label>
+							<input type="text" class="form-control" id="txt-spec-editUserDirectory-ssoDomain"
+							       name="ssoDomain" ng-model="userDirectory.ssoDomain" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1 form-group">
+				<input type="submit" class="btn btn-primary" id="btn-spec-editUserDirectory-submit" value="Update" />
+			</div>
+			<div class="col-md-1 form-group">
+				<button type="button" class="btn btn-default" id="btn-spec-editUserDirectory-cancel" onclick="history.back();">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

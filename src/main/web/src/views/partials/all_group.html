@@ -1,0 +1,24 @@
+<spectrum-heading title="Groups"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="alert alert-danger" role="alert" ng-if="error">
+			<strong>Error!</strong> {{error}}
+		</div>
+	</div>
+	<spectrum-table id="tb-spec-groups"
+	                add-actions="addActions"
+	                headings="[{name: 'Name'}, {active: 'Active'}]"
+	                rows="groupRowModel.rows"
+	                orderable-columns="name, active"
+	                order-by-initial="name"
+	                order-reverse-initial="false"
+	                empty-message="No groups found in Spectrum or external directories!"
+	                popover-rules="{name: {cutoff: '35', placement: 'right', suffix:'...'}}"
+	                filterable="true"
+	                filterable-columns="['name']"
+	                filter-prompt="Search group names"
+	                filter-applied="groupRowModel.filterApplied"
+	                row-description-plural="groups"
+	                elements-total-length="groupRowModel.rows.totalLength">
+	</spectrum-table>
+</div>

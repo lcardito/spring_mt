@@ -1,0 +1,167 @@
+<spectrum-heading
+        title="{{defaultFirstName !== null ? defaultFirstName: user.name}} {{defaultLastName !== null ? defaultLastName : ''}}"
+                  subtitle="{{user.external ? 'External' : 'Spectrum'}} user"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}
+			</div>
+			<div class="alert alert-danger" role="alert" ng-if="errors.length > 0">
+				<div ng-repeat="error in errors"><strong>Error!</strong> {{error}} <br/></div>
+			</div>
+			<div class="alert alert-success" role="alert" ng-if="successMsg">
+				<strong>Success!</strong> {{successMsg}}
+			</div>
+		</div>
+	</div>
+	<div ng-if="!user.external && user.name !== 'admin'" class="col-md-offset-11 pull-right">
+		<div class="dropdown form-group">
+			<button class="btn btn-default dropdown-toggle" type="button"
+			        id="dropdown-spec-editUser-manage-toggle" data-toggle="dropdown" aria-expanded="true">
+			<span class="glyphicon glyphicon-cog"></span>
+				</button>
+			<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdown-spec-editUser-manage-toggle">
+				<li>
+					<a id="btn-spec-editUser-manage-delete" ng-click="deleteUser(user.id)">
+						<span class="glyphicon glyphicon-trash"></span>
+						Delete user
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<form name="editForm" ng-submit="editForm.$valid && editUser(user.id)">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">User details</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6">
+								<h3 class="pull-up">Login details</h3>
+								<div class="form-group">
+									<label for="txt-spec-editUser-name">Username</label>
+									<input type="text" class="form-control" id="txt-spec-editUser-name" name="name"
+									       disabled ng-value="user.name"/>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-editUser-password">Password</label>
+									<input type="password" class="form-control" id="txt-spec-editUser-password"
+									       name="password"
+									       ng-model="password" ng-minlength="8" ng-maxlength="50" placeholder="New Password"
+									       autofocus ng-disabled="user.external"/>
+									<span class="error text-danger" ng-show="editForm.password.$error.minlength">
+										This password is too short!
+									</span>
+									<span class="error text-danger" ng-show="editForm.password.$error.maxlength">
+										This password is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-editUser-confirmPassword">Confirm password</label>
+									<input type="password" class="form-control" id="txt-spec-editUser-confirmPassword"
+									       name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password"
+									       ng-disabled="user.external"/>
+								</div>
+							</div>
+							<div class="col-md-offset-6">
+								<hr class="vertical-line"/>
+							</div>
+							<div class="col-md-6">
+								<h3 class="pull-up">Personal details</h3>
+								<div class="form-group">
+									<label for="txt-spec-editUser-firstName" required>First name</label>
+									<input type="text" class="form-control" id="txt-spec-editUser-firstName" name="firstName"
+									       ng-model="user.firstName" placeholder="First Name" ng-minlength="1"
+									       ng-maxlength="255"
+									       ng-required="!user.external" ng-disabled="user.external"/>
+									<span class="error text-danger" ng-show="editForm.firstName.$error.required">Required!</span>
+									<span class="error text-danger" ng-show="editForm.firstName.$error.minlength">
+										This first name is too short!
+									</span>
+									<span class="error text-danger" ng-show="editForm.firstName.$error.maxlength">
+										This first name is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-editUser-lastName" required>Last name</label>
+									<input type="text" class="form-control" id="txt-spec-editUser-lastName" name="lastName"
+									       ng-model="user.lastName" placeholder="Last Name" ng-minlength="2" ng-maxlength="255"
+									       ng-required="!user.external" ng-disabled="user.external"/>
+									<span class="error text-danger" ng-show="editForm.lastName.$error.required">Required!</span>
+									<span class="error text-danger" ng-show="editForm.lastName.$error.minlength"
+									      ng-if="!user.external">
+										This last name is too short!
+									</span>
+									<span class="error text-danger" ng-show="editForm.lastName.$error.maxlength"
+									      ng-if="!user.external">
+										This last name is too long!
+									</span>
+								</div>
+								<div class="form-group">
+									<label for="txt-spec-editUser-email">Email</label>
+									<input type="email" class="form-control" id="txt-spec-editUser-email"
+									       name="email" ng-model="user.email"
+									       placeholder="{{user.email && user.email.length > 0 ? user.email : 'Email'}}"
+									       ng-disabled="user.external"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1 form-group">
+				<input type="checkbox" id="ckbx-spec-editUser-active" name="active" ng-model="user.active"
+				       ng-disabled="user.external || user.name === 'admin'"/>
+				<label for="ckbx-spec-editUser-active">Active</label>
+			</div>
+			<div class="col-md-2 form-group">
+				<input type="checkbox" id="ckbx-spec-editUser-admin" name="role"
+				       ng-model="user.role" ng-true-value="ROLE_ADMIN" ng-false-value="ROLE_USER"
+				       ng-disabled="user.external || user.name === 'admin'"/>
+				<label for="ckbx-spec-editUser-admin">Administrator</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 form-group">
+				<input type="submit" class="btn btn-primary" id="btn-spec-editUser-submit" value="Update" />
+				<button type="button" class="btn btn-default" id="btn-spec-editUser-cancel" onclick="history.back();">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</form>
+	<hr/>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						User groups
+					</h3>
+				</div>
+				<div class="panel-body">
+					<spectrum-selector id="sel-spec-groups"
+					                   unselected-heading="Available groups"
+					                   selected-heading="Selected groups"
+					                   button-help="Use these buttons to change the groups this user belongs to (you can also double click)"
+					                   unselected-items="availableGroups"
+					                   selected-items="selectedGroups">
+					</spectrum-selector>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5 form-group">
+			<button class="btn btn-primary" id="btn-spec-editUser-submitGroups" ng-click="changeUserGroups(user.id);">
+				Update groups
+			</button>
+		</div>
+	</div>
+</div>

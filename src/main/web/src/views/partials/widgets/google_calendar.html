@@ -1,0 +1,95 @@
+<div class="google_calendar">
+	<spectrum-widget-loading widget="widget" ready="ready || widgetOptionsActive"></spectrum-widget-loading>
+
+	<div ng-if="ready && data.googleAuthorisationUrl" class="row">
+		<div class="col-sm-12">
+			<div class="text-center">
+				<a type="button" class="btn btn-default btn-spec-authorise-calendar" ng-click="authorize()">
+					<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+					Link with Google Calendar
+				</a>
+			</div>
+		</div>
+	</div>
+	<div ng-if="(ready || widgetOptionsActive) && data.authorized">
+		<div class="widget-options" ng-if="!widgetOptionsActive">
+			<a class="btn" ng-click="showWidgetOptions()" id="configure-widget-{{widget.wid}}"
+			   spectrum-popover
+			   popover-text="Filter options"
+			   popover-placement="bottom">
+				<i class="glyphicon glyphicon-cog"></i>
+			</a>
+			<a class="btn" role="button" href="https://www.google.com/calendar/" target="_blank"
+			   spectrum-popover
+			   popover-text="View full agenda"
+			   popover-placement="bottom">
+				<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+			</a>
+			<a ng-click="deauthorize()" class="deauthorize-btn btn"
+			   spectrum-popover
+			   popover-text="Unlink calendar"
+			   popover-placement="bottom">
+				<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+			</a>
+		</div>
+		<div class="collapse" id="widget-configuration-{{widget.wid}}">
+			<div class="well">
+				<form role="form" name="configEditForm" class="form-horizontal">
+
+					<spectrum-widget-common-options widget="widget" data="data" form="configEditForm"></spectrum-widget-common-options>
+
+					<div class="form-group">
+						<label for="select-spec-calendar-filter-{{widget.wid}}" class="col-sm-4 control-label small">Filter</label>
+						<div class="col-sm-6">
+							<select id="select-spec-calendar-filter-{{widget.wid}}" class="filterId form-control input-sm" ng-model="data.chosenTimeFilter"
+							        ng-options="filter.optLabel=filter.name for filter in data.timeFilters" ng-change="update(false)"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="select-spec-calendar-type-{{widget.wid}}" class="col-sm-4 control-label small">Display As</label>
+						<div class="col-sm-6">
+							<select id="select-spec-calendar-type-{{widget.wid}}" class="calenderType form-control input-sm" ng-change="update(false)" ng-model="data.chosenType"
+							        ng-options="calenderType.optLabel=calenderType.name for calenderType in data.availableTypes track by calenderType.value">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label"></label>
+						<div class="col-sm-6">
+							<button class="btn btn-xs btn-primary" ng-click="saveOptions(configEditForm)"
+							        id="configure-widget-{{widget.wid}}-save">
+								<i class="glyphicon glyphicon-floppy-saved"></i>
+								Save
+							</button>
+							<button class="btn btn-xs" id="btn-cancel-widget-options-{{widget.wid}}" ng-click="cancelOptions()">
+								<i class="glyphicon glyphicon-remove"></i>
+								Cancel
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div ng-if="ready && data.authorized">
+		<div ng-if="!data.showCalender">
+			<spectrum-table id="widget-result-table-{{widget.wid}}" ng-if="ready"
+			                headings="[{date: 'Date'},{time: 'Time', displayValue: 'displayTime'},{event: 'Event'},{details: 'Details'},{location: 'Location'},{attending: 'Status'}]"
+			                rows="resultTable.rows"
+			                order-by-initial="time"
+			                order-reverse-initial="false"
+			                empty-message="No Results"
+			                popover-rules="{event: {cutoff: '35', placement: 'bottom', suffix: '...'}, details: {cutoff: '35', placement: 'bottom', suffix: '...'}}"
+			                filterable-columns="resultTable.filterableColumns"
+			                filter-applied="resultTable.filterApplied"
+			                update-in-progress="resultTable.updateInProgress"
+			                row-description-plural="results"
+			                elements-total-length="resultTable.rows.totalLength">
+			</spectrum-table>
+		</div>
+		<div ng-if="data.showCalender">
+			<iframe src="{{data.iframesrc}}" frameborder="0" width="100%" height="{{widget.height - 40 + 'px'}}" scrolling="no" id="widget-iframe-{{widget.wid}}"></iframe>
+		</div>
+	</div>
+</div>

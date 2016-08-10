@@ -1,0 +1,36 @@
+<div class="form-group">
+	<label for="widget-window-title-{{widget.wid}}" class="col-sm-4 control-label small">Title</label>
+	<div class="col-sm-6">
+		<input id="widget-window-title-{{widget.wid}}" class="windowTitle form-control input-sm"
+		       ng-model="data.windowTitle" name="title" ng-maxlength="60" required/>
+		<span class="error text-danger" ng-show="form.title.$error.maxlength">
+			This name is too long!
+		</span>
+	</div>
+</div>
+
+<div class="form-group">
+	<label for="widget-config-bar-bgcolor-{{widget.wid}}" class="col-sm-4 control-label small" required style="word-break:normal;">Title background / text color</label>
+	<div class="col-sm-3">
+		<input id="widget-config-bar-bgcolor-{{widget.wid}}" type="text" class="windowTitle form-control input-sm ng-valid ng-dirty"
+			   minicolors="data.minicolorsSettings" ng-model="data.titleBgColor">
+	</div>
+	<div class="col-sm-3">
+		<input id="widget-config-bar-txtcolor-{{widget.wid}}" type="text" class="windowTitle form-control input-sm ng-valid ng-dirty"
+			   minicolors="data.minicolorsSettings" ng-model="data.titleTxtColor">
+	</div>
+</div>
+
+<div class="form-group" ng-if="data.showRefreshOptions">
+	<label for="widget-window-autorefresh-{{widget.wid}}" class="col-sm-4 control-label small">Auto Refresh</label>
+	<div class="col-sm-6">
+		<select id="widget-window-autorefresh-{{widget.wid}}" class="autoRefresh form-control input-sm" ng-model="data.autoRefresh">
+			<option value="0">No Auto Refresh</option>
+			<option value="1">Every 1 Minute</option>
+			<option value="5">Every 5 Minutes</option>
+			<option value="15">Every 15 Minutes</option>
+			<option value="30">Every Half Hour</option>
+			<option value="60">Every Hour</option>
+		</select>
+	</div>
+</div>

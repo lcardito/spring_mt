@@ -1,0 +1,52 @@
+<spectrum-heading title="Add application"></spectrum-heading>
+<div class="container theme-showcase" role="main">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="alert alert-danger" role="alert" ng-if="error">
+				<strong>Error!</strong> {{error}}.
+			</div>
+		</div>
+		<form class="col-xs-5" name="createForm" ng-submit="createForm.$valid && create()">
+			<div class="form-group">
+				<label for="txt-spec-newApp-name" required>Name</label>
+				<input type="text" ng-model="name" name="name" class="form-control " id="txt-spec-newApp-name"
+				       placeholder="Enter Application Name" ng-minlength="3" ng-maxlength="255" autofocus="autofocus" required>
+				<span class="error text-danger" ng-show="createForm.name.$error.minlength">This name is too short!</span>
+				<span class="error text-danger" ng-show="createForm.name.$error.maxlength">This name is too long!</span>
+			</div>
+			<div class="form-group">
+				<label for="txt-spec-newApp-url" required>Url</label>
+				<!-- we should be able to use type="url" to validate the existence of a protocol, but this seems to
+				     break when using port numbers; Angular won't tell you it's not valid but $valid will still not be
+				     true. Instead, we initialise the URL model to contain the protocol and restrict the length to 7,
+				     providing a warning about including a protocol. Our server then warns of invalid URLs for
+				     edge cases (eg the user ignores the warning and types "www.validhost.com") -->
+				<input type="text" ng-init="url = 'http://'" ng-model="url" name="url" class="form-control"
+				       id="txt-spec-newApp-url" required ng-minlength="7">
+				<span class="error text-danger" ng-show="createForm.url.$error.minlength">
+					You must include "http://" or "https://" in this URL!
+				</span>
+			</div>
+			<div class="form-group">
+				<label for="select-spec-newApp-type" required>Type</label><br/>
+				<select ng-model="supportedApp" name="type" id="select-spec-newApp-type"
+				        ng-options="supportedApp.name for supportedApp in supportedApps" required>
+					<option value="">-- Select an Application Type --</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="txt-spec-newApp-colour" required>Color<br/>
+					<small style="font-weight: normal">
+						This color will be used when displaying the application on the Dashboard
+					</small>
+				</label>
+				<input id="txt-spec-newApp-colour" type="text" class="form-control" minicolors="minicolorsSettings"
+				       ng-model="hexColour" required>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary" id="btn-spec-newApp-submit">Add</button>
+				<button type="button" class="btn btn-default" id="btn-spec-newApp-cancel" onclick="history.back();">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

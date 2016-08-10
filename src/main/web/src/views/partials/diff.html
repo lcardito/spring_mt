@@ -1,0 +1,13 @@
+<div class="panel panel-{{diff.class}}" ng-repeat="diff in diffs | orderBy: name">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<span class="glyphicon glyphicon-{{diff.icon}}"></span>&nbsp;&nbsp;{{diff.name}}
+		</h3>
+	</div>
+	<div ng-repeat="hunk in diff.hunks">
+		<div class="bg-{{line.class}} spec-diffLine" ng-repeat="line in hunk">
+			<span class="spec-diffLineNumber"> {{formatLineNumber(line.oldLineNumber)}} {{formatLineNumber(line.newLineNumber)}}</span>{{line.text}}
+		</div>
+		<hr ng-if="!$last" class="spec-diffSeparator"/>
+	</div>
+</div>

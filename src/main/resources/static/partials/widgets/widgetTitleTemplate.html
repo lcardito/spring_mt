@@ -1,0 +1,49 @@
+<h3 class="panel-title">
+	<div class="row" ng-class="{'adf-move': editMode}">
+		<div class="col-xs-6">
+			<span style="color:{{definition.txtColor}}">{{definition.title}}</span>
+		</div>
+		<div class="col-xs-6">
+			<div class="widget-title-options pull-right">
+				<a href="" id="refresh-widget-{{definition.wid}}" title="Reload widget content" ng-click="reload()">
+					<i class="glyphicon glyphicon-refresh"></i>
+				</a>
+                <!-- its a joke that we cannot get this to work -->
+                <!--<a href="" class="widget-config" id="config-widget-{{definition.wid}}" title="Reload widget content" ng-click="edit()" >-->
+                    <!--<i class="glyphicon glyphicon-cog"></i>-->
+                <!--</a>-->
+				<!-- collapse -->
+				<a href="" title="Collapse widget" ng-show="options.collapsible && !widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed">
+					<i class="glyphicon glyphicon-minus"></i>
+				</a>
+				<!-- expand -->
+				<a href="" title="Expand widget" ng-show="options.collapsible && widgetState.isCollapsed" ng-click="widgetState.isCollapsed = !widgetState.isCollapsed">
+					<i class="glyphicon glyphicon-plus"></i>
+				</a>
+				<!-- open edit mode -->
+				<!--<a href="" title="Edit widget configuration" ng-click="edit()" ng-if="editMode">-->
+					<!--<i class="glyphicon glyphicon-cog"></i>-->
+				<!--</a>-->
+				<a href="" title="Fullscreen widget" ng-click="openFullScreen()" ng-show="options.maximizable">
+					<i class="glyphicon glyphicon-fullscreen"></i>
+				</a>
+				<!-- remove widget -->
+				<a href="" title="Remove widget" ng-click="remove();$root.$broadcast('adfWidgetRemoved')" ng-if="editMode" id="remove-widget-{{definition.wid}}">
+					<i class="glyphicon glyphicon-remove"></i>
+				</a>
+			</div>
+
+			<div class="widget-search-bar pull-right" ng-if="definition.searchBox">
+				<div class="input-group">
+					<input id="widget-filter-{{definition.wid}}" class="form-control" type="text"
+					       name="filter" placeholder="Search..." ng-keyup="definition.searchBox($event)" ng-maxlength="200"/>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit" ng-click="definition.searchBox($event)">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</h3>

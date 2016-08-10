@@ -1,0 +1,5 @@
+{
+	"baseClass": "spectrum_icon",
+	"classPrefix": "atlassian_",
+	"mixinPrefix": "atlassian-"
+}

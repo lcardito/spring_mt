@@ -1,0 +1,11 @@
+<div adf-id="{{definition.wid}}" adf-widget-type="{{definition.type}}"  ng-class="{'panel-resize': editMode}" class="widget {{widget.class}} panel panel-default">
+
+	<div id="title-bar-{{definition.wid}}" class="panel-heading clearfix" ng-if="!widget.frameless || editMode" style="background-color: {{definition.bgColor}}">
+		<div ng-include src="definition.titleTemplateUrl"></div>
+	</div>
+
+	<div id="widget-content-{{definition.wid}}" ng-class="{'panel-body':!widget.frameless || editMode} {{widget.colour}}" collapse="widgetState.isCollapsed">
+		<adf-widget-content model="definition" content="widget" id="widget-{{definition.wid}}" />
+	</div>
+	
+</div>
