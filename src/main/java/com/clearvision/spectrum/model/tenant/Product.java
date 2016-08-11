@@ -1,17 +1,12 @@
 package com.clearvision.spectrum.model.tenant;
 
-import com.clearvision.spectrum.model.BaseObject;
+import com.clearvision.spectrum.model.SimpleModel;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-/**
- * User.
- *
- * @author Zakir Magdum
- */
 @Entity
-public class Product extends BaseObject {
+public class Product extends SimpleModel {
     @Column(length = 128, nullable = false)
     private String productId;
 
@@ -22,7 +17,6 @@ public class Product extends BaseObject {
     private String description;
 
     public Product merge(Product other) {
-        super.merge(other);
         this.productId = other.productId;
         this.price = other.price;
         this.description = other.description;
