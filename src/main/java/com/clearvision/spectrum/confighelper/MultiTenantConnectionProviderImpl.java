@@ -1,5 +1,8 @@
 package com.clearvision.spectrum.confighelper;
 
+import com.clearvision.spectrum.dao.master.CompanyDao;
+import com.clearvision.spectrum.model.master.Company;
+import com.clearvision.spectrum.util.Utils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import liquibase.Liquibase;
@@ -16,9 +19,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import com.clearvision.spectrum.model.master.Company;
-import com.clearvision.spectrum.repository.master.CompanyRepository;
-import com.clearvision.spectrum.util.Utils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -36,7 +36,7 @@ public class MultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMu
     private Map<String, DataSource> map; // map holds the companyKey => DataSource
 
     @Inject
-    private CompanyRepository companyRepository;
+    private CompanyDao companyRepository;
 
     @Value("${spring.datasource.url}")
     private String url;

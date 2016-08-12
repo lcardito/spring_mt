@@ -29,7 +29,7 @@ import java.util.Properties;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "masterEntityManager",
         transactionManagerRef = "masterTransactionManager",
-        basePackages = {"com.clearvision.spectrum.repository.master"})
+        basePackages = {"com.clearvision.spectrum.dao.master"})
 @EnableTransactionManagement
 public class DatabaseConfiguration {
     private final static Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);

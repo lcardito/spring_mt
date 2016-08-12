@@ -32,7 +32,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "tenantEntityManager",
         transactionManagerRef = "tenantTransactionManager",
-        basePackages = {"com.clearvision.spectrum.repository.tenant"})
+        basePackages = {"com.clearvision.spectrum.dao.tenant"})
 @EnableTransactionManagement
 public class MultiTenancyJpaConfiguration {
     @Bean

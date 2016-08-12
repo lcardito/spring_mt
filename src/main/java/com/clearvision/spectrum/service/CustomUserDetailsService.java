@@ -1,7 +1,7 @@
 package com.clearvision.spectrum.service;
 
 import com.clearvision.spectrum.model.tenant.User;
-import com.clearvision.spectrum.repository.tenant.UserRepository;
+import com.clearvision.spectrum.dao.tenant.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
     @Autowired
-    private UserRepository userDao;
+    private UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
