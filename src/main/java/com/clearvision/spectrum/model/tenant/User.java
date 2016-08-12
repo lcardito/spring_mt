@@ -21,15 +21,19 @@ public class User extends SimpleModel {
 	@Filterable
 	private String name;
 	private String password;
-	@Column(name = "cvRole")
+
+	@Column(name = "cvRole") //TODO CHANGE THIS
 	private Role role;
+
 	private String email;
 	private boolean isExternal;
 	private long syncCycle;
 	private boolean isDeleted;
 	private boolean isActive;
+
 	@Filterable
 	private String firstName;
+
 	@Filterable
 	private String lastName;
 
@@ -37,9 +41,8 @@ public class User extends SimpleModel {
     @JoinTable(
             name = "user_group",
             joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "groupId")
-    )
-    private Set<UserGroup> userGroups = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "groupId"))
+    private Set<Group> groups = new HashSet<>();
 
 
 	public User() {
@@ -97,8 +100,8 @@ public class User extends SimpleModel {
 		this.email = email;
 	}
 
-	Set<UserGroup> getUserGroups() {
-		return this.userGroups;
+	Set<Group> getUserGroups() {
+		return this.groups;
 	}
 
 	public boolean isExternal() {
@@ -148,9 +151,6 @@ public class User extends SimpleModel {
 		this.lastName = lastName;
 	}
 
-	/**
-	 * For clarity, explicitly call equals and hashcode from parent class.
-	 */
 	@Override
 	public boolean equals(Object o) {
 		return super.equals(o);
