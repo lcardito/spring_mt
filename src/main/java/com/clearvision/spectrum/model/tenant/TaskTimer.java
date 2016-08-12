@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TaskTimer")
-public class TaskTimerDB extends SimpleModel<TaskTimerDB> {
+public class TaskTimer extends SimpleModel<TaskTimer> {
 	@OneToOne
 	private User        user;
 	@OneToOne
@@ -16,9 +16,9 @@ public class TaskTimerDB extends SimpleModel<TaskTimerDB> {
 	private String remoteId;
 	private long        startTime;
 
-	public TaskTimerDB() { }
+	public TaskTimer() { }
 
-	public TaskTimerDB(User user, Application application, String remoteId, long startTime) {
+	public TaskTimer(User user, Application application, String remoteId, long startTime) {
 		this.user = user;
 		this.application = application;
 		this.remoteId = remoteId;

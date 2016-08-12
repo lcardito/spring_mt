@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.trace("Looking for user for {}", username);
         try {
-            Optional<User> user = userDao.findOneByName(username);
+            Optional<User> user = userDao.findByName(username);
             if (!user.isPresent()) {
                 LOGGER.info("USER NOT PRESENT for {} {}", username, user);
                 throw new UsernameNotFoundException("user not found");

@@ -1,46 +1,44 @@
-//package com.clearvision.spectrum.repository;
-//
-//import com.clearvision.spectrum.repository.master.RoleRepository;
-//import org.assertj.core.api.StrictAssertions;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.boot.test.SpringApplicationConfiguration;
-//import org.springframework.data.repository.config.RepositoryConfiguration;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//import org.springframework.transaction.annotation.Transactional;
-//import com.clearvision.spectrum.model.master.Role;
-//
-//import javax.inject.Inject;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//
-///**
-// * RoleRepositoryTest.
-// *
-// * @author Zakir Magdum
-// */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = {RepositoryConfiguration.class})
-//@Transactional("masterTransactionManager")
-//public class RoleRepositoryTest {
-//
-//    @Inject
-//    private RoleRepository roleRepository;
-//
-//    @Test
-//    public void testRemoveOldPersistentTokens() {
-//        Role role = new Role();
-//        role.setName("ROLE_TEST");
-//        role.setDescription("Test Role");
-//
-//        Role saved = roleRepository.save(role);
-//
-//        StrictAssertions.assertThat(saved.getId()).isNotNull();
-//
-//        Role read = roleRepository.getOne(saved.getId());
-//
-//        StrictAssertions.assertThat(role.getName().equals(read.getName())).isTrue();
-//        StrictAssertions.assertThat(role.getDescription().equals(read.getDescription())).isTrue();
-//
-//    }
-//}
+package com.clearvision.spectrum.dao;
+
+import com.clearvision.spectrum.dao.master.CompanyDao;
+import com.clearvision.spectrum.model.master.Company;
+import org.assertj.core.api.StrictAssertions;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.repository.config.RepositoryConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+
+/**
+ * RoleRepositoryTest.
+ *
+ * @author Zakir Magdum
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = {RepositoryConfiguration.class})
+@Transactional("masterTransactionManager")
+public class RoleRepositoryTest {
+
+    @Inject
+    private CompanyDao companyDao;
+
+    @Test
+    public void testRemoveOldPersistentTokens() {
+        Company company = new Company();
+        company.setCompanyKey("Internal");
+        company.setDescription("Test Role");
+
+        Company saved = companyDao.save(company);
+
+        StrictAssertions.assertThat(saved.getId()).isNotNull();
+
+        Company read = companyDao.getOne(saved.getId());
+
+        StrictAssertions.assertThat(company.getCompanyKey().equals(read.getCompanyKey())).isTrue();
+        StrictAssertions.assertThat(company.getDescription().equals(read.getDescription())).isTrue();
+
+    }
+}
