@@ -3,24 +3,58 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
-    <changeSet context="production" id="create-company" author="arussell">
-        <createTable tableName="Company">
-            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
-                <constraints primaryKey="true" nullable="false"/>
+    <changeSet id="dashboard-tables" author="ljudicak">
+        <createTable tableName="Dashboard">
+            <column autoIncrement="true" startWith="1" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar(128)">
-                <constraints unique="true" nullable="false"/>
+            <column defaultValueNumeric="0" name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
             </column>
-            <column name="company_key" type="varchar(128)">
-                <constraints unique="true" nullable="false"/>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar(255)"/>
-            <column name="address" type="varchar(255)"/>
-            <column name="enabled" type="bit"/>
-            <column name="created" type="TIMESTAMP"/>
-            <column name="updated" type="TIMESTAMP"/>
-            <column name="deleted" type="TIMESTAMP"/>
+            <column name="structure" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refreshInterval" type="INT"/>
         </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="Dashboard" constraintName="FK_dashboard_user"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="CVUser"/>
+        <addUniqueConstraint tableName="Dashboard" columnNames="user_id,title"/>
+        <createTable tableName="Widget">
+            <column autoIncrement="true" startWith="1" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValueNumeric="0" name="dashboard_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="columnNumber" type="INT"/>
+            <column name="widgetOrder" type="INT"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="autoRefresh" type="INT"/>
+            <column name="bgColor" type="VARCHAR(255)"/>
+            <column name="txtColor" type="VARCHAR(255)"/>
+            <column name="config" type="LONGTEXT"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="dashboard_id" baseTableName="Widget" constraintName="FK_widget_dashboard"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="Dashboard"/>
+    </changeSet>
+
+    <changeSet id="migrate-widget-config-data" author="sgowripattapu">
+        <customChange
+            class="com.clearvision.spectrum.liquibase.customtasks.MigrateWidgetConfig">
+        </customChange>
+    </changeSet>
+
+    <changeSet id="drop-old-widget-tables" author="mstencel">
+        <dropTable tableName="WidgetLayout"/>
+        <dropTable tableName="WidgetConfig"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -71,7 +71,7 @@ public class DatabaseConfiguration {
         SpringLiquibase sl = new SpringLiquibase();
         sl.setDataSource(dataSource);
         sl.setContexts(liquibaseContext);
-        sl.setChangeLog("classpath:db-changelog.xml");
+        sl.setChangeLog("classpath:db-changelog-MASTER.xml");
         sl.setShouldRun(true);
         return sl;
     }

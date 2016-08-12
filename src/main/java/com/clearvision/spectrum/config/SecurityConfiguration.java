@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -40,11 +39,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and().logout().and().authorizeRequests()
-                .antMatchers("/index.html", "/productlist.html", "/login.html", "/user", "/users", "/").permitAll().anyRequest()
-                .authenticated().and().csrf()
-                .csrfTokenRepository(csrfTokenRepository()).and()
-                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
+//        http.httpBasic().and().logout().and().authorizeRequests()
+//                .antMatchers("/index.html", "/productlist.html", "/login.html", "/user", "/users", "/")
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated().and().csrf()
+//                .csrfTokenRepository(csrfTokenRepository()).and()
+//                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
 
     @Autowired

@@ -9,31 +9,22 @@
             <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(128)">
-                <constraints unique="true" nullable="false"/>
-            </column>
             <column name="company_key" type="varchar(128)">
                 <constraints unique="true" nullable="false"/>
             </column>
             <column name="description" type="varchar(255)"/>
             <column name="address" type="varchar(255)"/>
             <column name="enabled" type="bit"/>
-            <column name="created" type="TIMESTAMP"/>
-            <column name="updated" type="TIMESTAMP"/>
-            <column name="deleted" type="TIMESTAMP"/>
         </createTable>
-
-        <addUniqueConstraint tableName="user_role" columnNames="user_id,role_id" constraintName="uq_userid_roleid"/>
     </changeSet>
 
 
     <changeSet id="populate-initial-data" author="arussell" context="production">
         <preConditions onFail="MARK_RAN">
-            <rowCount tableName="Company" expectedRows="1"/>
+            <rowCount tableName="company" expectedRows="0"/>
         </preConditions>
         <!-- Populate db with initial data -->
-        <insert tableName="Company">
-            <column name="name">internal</column>
+        <insert tableName="company">
             <column name="company_key">internal</column>
             <column name="description">Default Internal Company</column>
             <column name="address">internal</column>
