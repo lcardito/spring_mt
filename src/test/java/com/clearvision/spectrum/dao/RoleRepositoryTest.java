@@ -1,12 +1,12 @@
 package com.clearvision.spectrum.dao;
 
+import com.clearvision.spectrum.Spectrum;
 import com.clearvision.spectrum.dao.master.CompanyDao;
 import com.clearvision.spectrum.model.master.Company;
 import org.assertj.core.api.StrictAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import javax.inject.Inject;
  * @author Zakir Magdum
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {RepositoryConfiguration.class})
+@SpringApplicationConfiguration(classes = {Spectrum.class})
 @Transactional("masterTransactionManager")
 public class RoleRepositoryTest {
 

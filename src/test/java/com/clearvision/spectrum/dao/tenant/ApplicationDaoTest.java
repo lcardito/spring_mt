@@ -1,12 +1,12 @@
 package com.clearvision.spectrum.dao.tenant;
 
+import com.clearvision.spectrum.Spectrum;
 import com.clearvision.spectrum.model.tenant.Application;
 import com.clearvision.spectrum.model.tenant.SupportedApp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {RepositoryConfiguration.class})
+@SpringApplicationConfiguration(classes = {Spectrum.class})
 @Transactional("tenantTransactionManager")
 public class ApplicationDaoTest {
 
