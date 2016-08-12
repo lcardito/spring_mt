@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<changeSet context="production"  id="rename-supported-app-stash" author="arussell">
+		<update tableName="SupportedApp">
+			<column name="lcName" value="bbserver" />
+			<column name="name" value="Bitbucket Server" />
+			<where>:name=:value</where>
+			<whereParams>
+				<param name="lcName" value="stash" />
+			</whereParams>
+		</update>
+	</changeSet>
+	<changeSet context="production"  id="process-date-not-null" author="sgowripattapu">
+		<update tableName="Process">
+			<column name="createDate" value='now()' type="datetime"/>
+			<where>createDate IS NULL</where>
+		</update>
+		<update tableName="Process">
+			<column name="UpdateDate" value='now()' type="datetime"/>
+			<where>UpdateDate IS NULL</where>
+		</update>
+		<addNotNullConstraint columnDataType="datetime"
+		                      columnName="UpdateDate"
+		                      tableName="Process"/>
+		<addNotNullConstraint columnDataType="datetime"
+		                      columnName="createDate"
+		                      tableName="Process"/>
+	</changeSet>
+	<changeSet context="production"  id="rename-supported-app-jira" author="rgiddings">
+		<update tableName="SupportedApp">
+			<column name="lcName" value="jira" />
+			<column name="name" value="JIRA" />
+			<where>:name=:value</where>
+			<whereParams>
+				<param name="lcName" value="jira" />
+			</whereParams>
+		</update>
+	</changeSet>
+	<changeSet context="production"  id="modify-widgetLayout-length" author="sanyasi">
+		<modifyDataType columnName="layout"
+		                newDataType="VARCHAR(2084)"
+		                tableName="WidgetLayout"/>
+	</changeSet>
+</databaseChangeLog>

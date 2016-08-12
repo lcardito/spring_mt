@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<include file="classpath:db-changelog-v1.4-base.xml"/>
+	<include file="classpath:db-changelog-v1.5-upgrade.xml"/>
+	<include file="classpath:db-changelog-v1.6-upgrade.xml"/>
+	<include file="classpath:db-changelog-v1.7-upgrade.xml"/>
+	<include file="classpath:db-changelog-v1.8-upgrade.xml"/>
+	<include file="classpath:db-changelog-v2.0-upgrade.xml"/>
+	<include file="classpath:db-changelog-v2.1-upgrade.xml"/>
+    <include file="classpath:db-changelog-v2.1.1-user-app-creds.xml"/>
+    <include file="classpath:db-changelog-v2.1.2-upgrade.xml"/>
+    <include file="classpath:db-changelog-v2.2.0-widget-height.xml"/>
+</databaseChangeLog>

@@ -1,5 +1,6 @@
 package com.clearvision.spectrum.config;
 
+import com.clearvision.spectrum.model.tenant.User;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
@@ -14,7 +15,6 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import com.clearvision.spectrum.model.tenant.Product;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -45,9 +45,10 @@ public class MultiTenancyJpaConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
                                                            MultiTenantConnectionProvider connectionProvider,
                                                            CurrentTenantIdentifierResolver tenantResolver) {
+
         LocalContainerEntityManagerFactoryBean emfBean = new LocalContainerEntityManagerFactoryBean();
         emfBean.setDataSource(dataSource);
-        emfBean.setPackagesToScan(Product.class.getPackage().getName());
+        emfBean.setPackagesToScan(User.class.getPackage().getName());
         emfBean.setJpaVendorAdapter(jpaVendorAdapter());
 
         Map<String, Object> properties = new HashMap<>();

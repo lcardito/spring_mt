@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="1" author="arussell" context="production">
+
+        <createTable tableName="company">
+            <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="company_key" type="varchar(128)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+            <column name="address" type="varchar(255)"/>
+            <column name="enabled" type="bit"/>
+            <column name="created" type="TIMESTAMP"/>
+            <column name="updated" type="TIMESTAMP"/>
+            <column name="deleted" type="TIMESTAMP"/>
+        </createTable>
+
+        <addUniqueConstraint tableName="user_role" columnNames="user_id,role_id" constraintName="uq_userid_roleid"/>
+    </changeSet>
+
+
+    <changeSet id="populate-initial-data" author="arussell" context="production">
+        <preConditions onFail="MARK_RAN">
+            <rowCount tableName="Company" expectedRows="1"/>
+        </preConditions>
+        <!-- Populate db with initial data -->
+        <insert tableName="Company">
+            <column name="name">internal</column>
+            <column name="company_key">internal</column>
+            <column name="description">Default Internal Company</column>
+            <column name="address">internal</column>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

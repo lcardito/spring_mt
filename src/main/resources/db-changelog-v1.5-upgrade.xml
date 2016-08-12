@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<changeSet context="production"  id="add-sso" author="mmuschol">
+		<addColumn tableName="UserDirectory">
+			<column name="ssoDomain" type="VARCHAR(255)"/>
+		</addColumn>
+		<addColumn tableName="UserDirectory">
+			<column name="ssoEnabled" type="BOOLEAN">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+		<addColumn tableName="UserDirectory">
+			<column name="remoteIpAddress" type="VARCHAR(255)"/>
+		</addColumn>
+		<renameColumn tableName="UserDirectory" columnDataType="BOOLEAN" oldColumnName="isActive"
+		              newColumnName="active"/>
+	</changeSet>
+
+	<changeSet context="production"  id="modify-reserved-keyword-clashes-hsql" author="mmuschol">
+		<!-- If the database is HSQL and the schema was created by Hibernate, then role is not quoted in the database but Liquibase will quote the keyword when trying to rename.
+			 We need to use SQL to rename the columns as Liquibase would try to rename the column '"role"' rather than 'role' -->
+		<preConditions onFail="MARK_RAN">
+			<and>
+				<dbms type="hsqldb"/>
+				<sqlCheck expectedResult="2"  >
+					<!-- There should be two of these, one in CVUser and one in SpectrumGroup -->
+					SELECT COUNT(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME = 'ROLE';
+				</sqlCheck>
+			</and>
+		</preConditions>
+		<comment>Liquibase identified potential keyword clashes for some database systems. Renamed these elements to ensure predictable behaviour in all systems.</comment>
+		<sql>
+			ALTER TABLE CVUser ALTER COLUMN role RENAME TO cvRole;
+			ALTER TABLE SpectrumGroup ALTER COLUMN role RENAME TO cvRole;
+			ALTER TABLE Comment ALTER COLUMN timeStamp RENAME TO cvTimeStamp;
+		</sql>
+	</changeSet>
+
+	<changeSet context="production"  id="modify-reserved-keyword-clashes" author="mmuschol">
+		<!-- For MySQL or if (in the case of HSQL) the base schema was created by Liquibase, use the normal rename approach to rename column names
+		     that clash with keywords. -->
+		<preConditions onFail="MARK_RAN">
+			<columnExists tableName="CVUser" columnName="role"/>
+		</preConditions>
+		<comment>Liquibase identified potential keyword clashes for some database systems. Renamed these elements to ensure predictable behaviour in all systems.</comment>
+		<renameColumn tableName="CVUser" oldColumnName="role" newColumnName="cvRole" columnDataType="INT"/>
+		<renameColumn tableName="SpectrumGroup" oldColumnName="role" newColumnName="cvRole" columnDataType="INT"/>
+		<renameColumn tableName="Comment" oldColumnName="timeStamp" newColumnName="cvTimeStamp" columnDataType="datetime"/>
+	</changeSet>
+
+	<changeSet context="production"  id="add-app-colours" author="mmuschol">
+		<addColumn tableName="Application">
+			<column name="hexColour" type="CHAR(6)"/>
+		</addColumn>
+	</changeSet>
+
+	<changeSet context="production"  id="remove-redundant-application-plugin-info" author="mmuschol">
+		<dropTable tableName="ApplicationPlugin"/>
+		<dropTable tableName="SupportedPlugin"/>
+	</changeSet>
+
+	<changeSet context="production"  id="drop-irrelevant-unique-constraint" author="mmuschol">
+		<dropUniqueConstraint tableName="Process" constraintName="UK_9rrnpmpypv5o767s3pi25qb06"/>
+		<addUniqueConstraint tableName="Process" columnNames="title, sequence" constraintName="ProcessTitleSequence"
+		                     deferrable="false" disabled="false" initiallyDeferred="false"/>
+	</changeSet>
+</databaseChangeLog>

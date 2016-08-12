@@ -23,11 +23,7 @@ import javax.sql.DataSource;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * DatabaseConfiguration.
- *
- * @author Zakir Magdum
- */
+// Note this file creates the MASTER database within liquibase
 @Configuration
 @EnableConfigurationProperties(JpaProperties.class)
 @EnableJpaRepositories(
@@ -75,7 +71,7 @@ public class DatabaseConfiguration {
         SpringLiquibase sl = new SpringLiquibase();
         sl.setDataSource(dataSource);
         sl.setContexts(liquibaseContext);
-        sl.setChangeLog("classpath:dbchangelog.xml");
+        sl.setChangeLog("classpath:db-changelog.xml");
         sl.setShouldRun(true);
         return sl;
     }

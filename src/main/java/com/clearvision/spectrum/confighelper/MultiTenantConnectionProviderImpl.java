@@ -27,11 +27,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * MultiTenantConnectionProviderImpl.
- *
- * @author Zakir Magdum
- */
+//Note - This file creates the tennanted database stuff within liquibase
 @Component
 @Transactional(value="masterTransactionManager", readOnly = true)
 public class MultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl implements ApplicationListener<ContextRefreshedEvent> {
@@ -86,7 +82,7 @@ public class MultiTenantConnectionProviderImpl extends AbstractDataSourceBasedMu
     private void initDbWithLiquibase(HikariDataSource ds) throws SQLException, LiquibaseException {
         Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
                 new JdbcConnection(ds.getConnection()));
-        Liquibase liquibase = new Liquibase("dbchangelog-product.xml", new ClassLoaderResourceAccessor(), database);
+        Liquibase liquibase = new Liquibase("db-changelog.xml", new ClassLoaderResourceAccessor(), database);
         liquibase.update("test, production");
     }
 

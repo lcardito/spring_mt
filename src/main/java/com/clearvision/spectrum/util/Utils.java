@@ -3,11 +3,6 @@ package com.clearvision.spectrum.util;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-/**
- * Utils.
- *
- * @author Zakir Magdum
- */
 public class Utils {
     public static String databaseNameFromJdbcUrl(String url) {
         try {

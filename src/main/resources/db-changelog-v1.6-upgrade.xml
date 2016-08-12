@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<changeSet context="production"  id="create-oauth-secrets" author="sgowripattapu">
+		<addColumn tableName="Application">
+			<column name="accessToken" type="VARCHAR(255)"/>
+		</addColumn>
+		<createTable tableName="OAuthTokenRequest">
+			<column autoIncrement="true" startWith="1" name="id" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="tokenVerifier" type="VARCHAR(255)"/>
+			<column name="requestToken" type="VARCHAR(255)"/>
+			<column name="tokenSecret" type="VARCHAR(255)"/>
+			<column name="application_id" type="BIGINT"/>
+		</createTable>
+		<addUniqueConstraint columnNames="application_id" constraintName="UK_oauthtokenrequest_application"
+		                     deferrable="false" disabled="false" initiallyDeferred="false" tableName="OAuthTokenRequest"/>
+		<addForeignKeyConstraint baseColumnNames="application_id" baseTableName="OAuthTokenRequest"
+		                         constraintName="FK_oauthtokenrequest_application" deferrable="false"
+		                         initiallyDeferred="false"
+		                         onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="Application"/>
+		<renameTable oldTableName="SshHostKey" newTableName="HostKey"/>
+
+		<createTable tableName="Project">
+			<column autoIncrement="true" startWith="1" name="id" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+			<column name="description" type="VARCHAR(255)"/>
+			<column name="projectKey" type="VARCHAR(255)"/>
+			<column name="createdDate" type="datetime"/>
+		</createTable>
+		<addNotNullConstraint columnDataType="datetime" columnName="createdDate" tableName="Project"/>
+		<addUniqueConstraint columnNames="name" constraintName="UK_project_name"
+		                     deferrable="false" disabled="false" initiallyDeferred="false" tableName="Project"/>
+
+		<createTable tableName="ProjectApplication">
+			<column name="id" autoIncrement="true" startWith="1" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="project_id" type="BIGINT"/>
+			<column name="application_id" type="BIGINT"/>
+			<column name="adminGroup" type="VARCHAR(255)"/>
+			<column name="userGroup" type="VARCHAR(255)"/>
+			<column name="devGroup" type="VARCHAR(255)"/>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="application_id" baseTableName="ProjectApplication"
+		                         constraintName="FK_projectapplication_application" deferrable="false"
+		                         initiallyDeferred="false"
+		                         onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="Application"/>
+		<addForeignKeyConstraint baseColumnNames="project_id" baseTableName="ProjectApplication"
+		                         constraintName="FK_projectapplication_project" deferrable="false"
+		                         initiallyDeferred="false"
+		                         onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id"
+		                         referencedTableName="Project"/>
+
+		<createTable tableName="ProjectApplicationParameter">
+			<column name="projectApplication_id" type="BIGINT"/>
+			<column name="parameterKey" type="VARCHAR(255)"/>
+			<column name="parameterValue" type="VARCHAR(255)"/>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="projectApplication_id" baseTableName="ProjectApplicationParameter"
+		                         constraintName="FK_projectapplicationparameter_projectapplication" deferrable="false"
+		                         initiallyDeferred="false"
+		                         onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="ProjectApplication"/>
+
+	</changeSet>
+	<changeSet context="production"  id="add-process-version" author="amalhao">
+		<addColumn tableName="Process">
+			<column name="version" type="CHAR(32)" />
+		</addColumn>
+	</changeSet>
+	<changeSet context="production"  id="backfill-process-version" author="arussell">
+		<customChange
+			class="com.clearvision.spectrum.liquibase.customtasks.BackfillProcessVersion">
+		</customChange>
+	</changeSet>
+	<changeSet context="production"  id="custom-supportedApplication" author="crenwick">
+		<insert tableName="SupportedApp">
+			<column name="lcName">custom</column>
+			<column name="name">Custom</column>
+			<column name="minVersion">3.5.4</column>
+			<column name="maxVersion">3.5.4</column>
+		</insert>
+	</changeSet>
+	<changeSet context="production"  id="backfill-process-version-comment" author="rgiddings">
+		<customChange
+			class="com.clearvision.spectrum.liquibase.customtasks.BackfillProcessVersionComment">
+		</customChange>
+	</changeSet>
+	<changeSet context="production"  id="make-some-process-columns-mandatory" author="rgiddings">
+		<addNotNullConstraint columnDataType="VARCHAR(255)" columnName="title" tableName="Process"/>
+		<addNotNullConstraint columnDataType="VARCHAR(4000)" columnName="versionComment" tableName="Process"/>
+		<addNotNullConstraint columnDataType="datetime" columnName="createDate" tableName="Process"/>
+	</changeSet>
+	<changeSet context="production"  id="refactor-process-data" author="rgiddings">
+		<modifyDataType columnName="id" newDataType="BIGINT" tableName="Process"/>
+		<dropPrimaryKey tableName="Process"/>
+		<renameTable newTableName="OldProcess" oldTableName="Process"/>
+		<createTable tableName="Process">
+			<column name="id" autoIncrement="true" startWith="1" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="title" type="VARCHAR(255)"/>
+			<column name="description" type="VARCHAR(4000)"/>
+			<column name="createDate" type="datetime"/>
+			<column name="updateDate" type="datetime"/>
+		</createTable>
+		<addNotNullConstraint columnDataType="VARCHAR(255)" columnName="title" tableName="Process"/>
+		<addNotNullConstraint columnDataType="datetime" columnName="createDate" tableName="Process"/>
+		<createTable tableName="ProcessVersion">
+			<column name="id" autoIncrement="true" startWith="1" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="process_id" type="BIGINT"/>
+			<column name="fileName" type="VARCHAR(255)"/>
+			<column name="comment" type="VARCHAR(4000)"/>
+			<column name="description" type="VARCHAR(4000)"/>
+			<column name="createDate" type="datetime"/>
+			<column name="updateDate" type="datetime"/>
+			<column name="sequence" type="INTEGER"/>
+			<column name="versionKey" type="CHAR(32)"/>
+			<column name="file" type="LONGBLOB"/>
+		</createTable>
+		<addNotNullConstraint columnDataType="VARCHAR(4000)" columnName="comment" tableName="ProcessVersion"/>
+		<addNotNullConstraint columnDataType="datetime" columnName="createDate" tableName="ProcessVersion"/>
+		<addNotNullConstraint columnDataType="INTEGER" columnName="sequence" tableName="ProcessVersion"/>
+		<addForeignKeyConstraint baseColumnNames="process_id" baseTableName="ProcessVersion"
+		                         constraintName="FK_processversion_process" deferrable="false"
+		                         initiallyDeferred="false"
+		                         onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="Process"/>
+	</changeSet>
+	<changeSet context="production"  id="modify-process-version-file-datatype-postgresql" author="rgiddings" dbms="postgresql">
+		<!-- If we entered this changeset, then this means that the 1.4 schema was created by liquibase. For Postgres databases and LONGBLOB columns, Liquibase
+		     disagrees with Hibernate on the type that should be used. This needs to be fixed here to use the native Postgres type expected by Hibernate. -->
+		<dropColumn tableName="ProcessVersion" columnName="file"/>
+		<addColumn tableName="ProcessVersion">
+			<column name="file" type="oid"/>
+		</addColumn>
+	</changeSet>
+	<changeSet context="production"  id="migrate-process-data" author="rgiddings">
+		<customChange
+			class="com.clearvision.spectrum.liquibase.customtasks.MigrateProcessData">
+		</customChange>
+		<dropTable tableName="OldProcess"/>
+	</changeSet>
+
+	<changeSet context="production"  id="modify-application-constraint-name" author="mmuschol">
+		<dropUniqueConstraint tableName="Application" constraintName="uk_3bybc06lpbxm4kfyb7lid7ej4"/>
+		<addUniqueConstraint tableName="Application" constraintName="uk_application_name" columnNames="name"/>
+	</changeSet>
+</databaseChangeLog>

@@ -3,14 +3,9 @@ package com.clearvision.spectrum.model.tenant;
 import com.clearvision.spectrum.model.Filterable;
 import com.clearvision.spectrum.model.SimpleModel;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "SpectrumGroup")
@@ -24,10 +19,6 @@ public class Group extends SimpleModel {
 	private long syncCycle;
 	private boolean isDeleted;
 	private boolean isActive;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.group", cascade=CascadeType.ALL)
-	private final Set<UserGroup> userGroups = new HashSet<>();
-
 
 	public Group() {
 	}

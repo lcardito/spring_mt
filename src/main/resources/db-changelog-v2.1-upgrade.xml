@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<changeSet context="production"  id="add-process-columns" author="ljudicak">
+		<addColumn tableName="Process">
+			<column name="createdBy" type="VARCHAR(255)"/>
+			<column name="updatedBy" type="VARCHAR(255)"/>
+		</addColumn>
+		<addColumn tableName="ProcessVersion">
+			<column name="createdBy" type="VARCHAR(255)"/>
+			<column name="updatedBy" type="VARCHAR(255)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet context="production"  id="bookmark-tables" author="sgowripattapu">
+		<createTable tableName="Bookmark">
+			<column autoIncrement="true" startWith="1" name="id" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column defaultValueNumeric="0" name="user_id" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="link" type="VARCHAR(255)"/>
+			<column name="label" type="VARCHAR(255)"/>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="Bookmark" constraintName="FK_bookmark_user"
+		                         deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="CVUser"/>
+	</changeSet>
+	<changeSet context="production"  id="add-constrains-bookmark-tables" author="sgowripattapu">
+		<addUniqueConstraint columnNames="label,user_id" constraintName="UK_bookmark_label"
+		                     deferrable="false" disabled="false" initiallyDeferred="false" tableName="Bookmark"/>
+	</changeSet>
+	<changeSet context="production"  id="add-task-timer-table" author="amalhao">
+		<createTable tableName="TaskTimer">
+			<column name="id" autoIncrement="true" startWith="1" type="BIGINT">
+				<constraints primaryKey="true"/>
+			</column>
+			<column name="user_id" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="application_id" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="remoteId" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="startTime" type="BIGINT">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="user_id" baseTableName="TaskTimer" constraintName="FK_tasktimer_user"
+		                         deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="CVUser"/>
+		<addForeignKeyConstraint baseColumnNames="application_id" baseTableName="TaskTimer" constraintName="FK_tasktimer_application"
+		                         deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="Application"/>
+	</changeSet>
+    <changeSet context="production"  id="remove-gitac" author="arussell">
+        <dropTable tableName="Comment" />
+        <dropTable tableName="Reviewer" />
+        <dropTable tableName="PullRequest" />
+        <dropTable tableName="RepositoryGroupPermission" />
+        <dropTable tableName="RepositoryUserPermission" />
+        <dropTable tableName="Repository" />
+    </changeSet>
+	<changeSet context="production"  id="rename-supported-app-nexus" author="sgowripattapu">
+		<update tableName="SupportedApp">
+			<column name="lcName" value="nexusiq" />
+			<column name="name" value="Nexus-IQ" />
+			<column name="minVersion">1.20</column>
+			<column name="maxVersion">1.20</column>
+			<where>:name=:value</where>
+			<whereParams>
+				<param name="lcName" value="nexus" />
+			</whereParams>
+		</update>
+	</changeSet>
+</databaseChangeLog>
