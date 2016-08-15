@@ -64,6 +64,12 @@ public class ApplicationDaoTest {
 
         nextApp = applicationDao.findByUrlLike("%example%");
         assertTrue(nextApp.isPresent());
-    }
+        Application nextAppModel = nextApp.get();
+        assertEquals(nextAppModel.getUrl(), application.getUrl());
 
+        nextAppModel.setUrl("http://anotherExample.com");
+
+        assertEquals(applicationDao.save(nextAppModel).getId(), nextApp.get().getId());
+        assertEquals(applicationDao.save(nextAppModel).getUrl(), "http://anotherExample.com");
+    }
 }
