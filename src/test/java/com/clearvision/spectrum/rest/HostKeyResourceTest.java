@@ -1,14 +1,18 @@
 package com.clearvision.spectrum.rest;
 
+import com.clearvision.spectrum.SpectrumTest;
 import com.clearvision.spectrum.model.tenant.HostKey;
 import com.clearvision.spectrum.service.HostKeyService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
@@ -17,14 +21,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(HostKeyResource.class)
+@SpringBootTest(classes = {SpectrumTest.class})
 public class HostKeyResourceTest {
 
-    @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    @InjectMocks
+    private HostKeyResource hostKeyResource;
+
+    @Mock
     private HostKeyService hostKeyService;
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        mvc = MockMvcBuilders.standaloneSetup(hostKeyResource).build();
+    }
 
     @Test
     public void testExample() throws Exception {
