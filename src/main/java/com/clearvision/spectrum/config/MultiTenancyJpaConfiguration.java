@@ -20,11 +20,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * MultiTenancyJpaConfiguration.
- *
- * @author Zakir Magdum
- */
 @Configuration
 @ComponentScan("com.clearvision.spectrum.confighelper")
 @EnableJpaRepositories(

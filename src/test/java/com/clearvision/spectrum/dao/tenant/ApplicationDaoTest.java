@@ -1,39 +1,45 @@
 package com.clearvision.spectrum.dao.tenant;
 
+import com.clearvision.spectrum.SpectrumTest;
 import com.clearvision.spectrum.model.tenant.Application;
+import com.clearvision.spectrum.model.tenant.SupportedApp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = {SpectrumTest.class})
 @Transactional("tenantTransactionManager")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@SpringBootTest(classes = {DatabaseConfiguration.class, SecurityConfiguration.class, MultiTenancyJpaConfiguration.class, WebMvcConfig.class})
 public class ApplicationDaoTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
 
     @Autowired
     private ApplicationDao applicationDao;
 
-    @Test
-    public void savingUsers() {
+    @Autowired
+    private SupportedAppDao supportedAppDao;
 
+    @Test
+    public void creatingApps() {
         Application application = new Application();
         application.setName("JIRA");
         application.setUrl("http://example.com");
-        Application saved = applicationDao.save(application);
+        Optional<SupportedApp> supportedJira = supportedAppDao.findByName("JIRA");
+        if (supportedJira.isPresent()) {
+            application.setSupportedApp(supportedJira.get());
+        }
 
-        assertTrue(applicationDao.findByName("JIRA").isPresent());
+        applicationDao.save(application);
+        Optional<Application> exampleJira = applicationDao.findByName("JIRA");
+        assertTrue(exampleJira.isPresent());
+        assertEquals(exampleJira.get().getUrl(), "http://example.com");
     }
 
 }
