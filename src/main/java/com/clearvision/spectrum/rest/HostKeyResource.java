@@ -3,13 +3,13 @@ package com.clearvision.spectrum.rest;
 import com.clearvision.spectrum.model.tenant.HostKey;
 import com.clearvision.spectrum.service.HostKeyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping(value = "host-key", produces = "application/json")
-@Service
+@Controller
 public class HostKeyResource {
     @Autowired
     private HostKeyService hostKeyService;

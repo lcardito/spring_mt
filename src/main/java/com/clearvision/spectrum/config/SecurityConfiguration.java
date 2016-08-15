@@ -23,11 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * SecurityConfiguration.
- *
- * @author Zakir Magdum
- */
 @Configuration
 @ComponentScan("com.clearvision.spectrum.service")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {

@@ -27,7 +27,7 @@ public class TenantIdentifierInterceptorAdapter extends HandlerInterceptorAdapte
 //                req.setAttribute(Constants.CURRENT_TENANT_IDENTIFIER, user.get().getCompany().getCompanyKey());
 //            }
 //        }
-        req.setAttribute(Constants.CURRENT_TENANT_IDENTIFIER, "INTERNAL");
+        req.setAttribute(Constants.CURRENT_TENANT_IDENTIFIER, "internal");
         return true;
     }
 }

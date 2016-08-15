@@ -23,7 +23,6 @@ import javax.sql.DataSource;
 import java.util.Map;
 import java.util.Properties;
 
-// Note this file creates the MASTER database within liquibase
 @Configuration
 @EnableConfigurationProperties(JpaProperties.class)
 @EnableJpaRepositories(
