@@ -11,4 +11,6 @@ public interface ApplicationDao extends JpaRepository<Application, Long> {
 	//List<Application> getApplicationsBySupportedAppId(Long SupportedAppId);
     Optional<Application> findByName(String applicationName);
     List<Application> findBySupportedAppId(Long supportedAppId);
+    Optional<Application> findBySupportedAppIdAndName(Long supportedAppId, String applicationName);
+    Optional<Application> findByUrlLike(String url);
 }

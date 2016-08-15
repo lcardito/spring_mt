@@ -10,9 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
@@ -40,6 +43,27 @@ public class ApplicationDaoTest {
         Optional<Application> exampleJira = applicationDao.findByName("JIRA");
         assertTrue(exampleJira.isPresent());
         assertEquals(exampleJira.get().getUrl(), "http://example.com");
+    }
+
+    @Test
+    public void canFindBySupportedAppId() throws Exception {
+        Application application = new Application();
+        application.setName("JIRA");
+        application.setUrl("http://example.com");
+        SupportedApp supportedJira = supportedAppDao.findByName("JIRA").orElseThrow(IllegalStateException::new);
+        application.setSupportedApp(supportedJira);
+
+        applicationDao.save(application);
+
+        List<Application> apps = applicationDao.findBySupportedAppId(supportedJira.getId());
+        assertNotNull(apps);
+        assertFalse(apps.isEmpty());
+
+        Optional<Application> nextApp = applicationDao.findBySupportedAppIdAndName(supportedJira.getId(), "JIRA");
+        assertTrue(nextApp.isPresent());
+
+        nextApp = applicationDao.findByUrlLike("%example%");
+        assertTrue(nextApp.isPresent());
     }
 
 }
