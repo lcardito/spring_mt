@@ -32,4 +32,14 @@
         </insert>
     </changeSet>
 
+    <changeSet id="populate-test-company" author="arussell" context="test">
+        <!-- Populate db with initial data -->
+        <insert tableName="company">
+            <column name="company_key">test_internal</column>
+            <column name="description">THIS IS THE TEST COMPANY</column>
+            <column name="address">test_internal</column>
+            <column name="enabled" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

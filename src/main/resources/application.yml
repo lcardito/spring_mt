@@ -1,5 +1,5 @@
 liquibase:
-    context: production,test
+    context: production
 
 spring:
     datasource:

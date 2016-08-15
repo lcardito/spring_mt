@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class TestTenantResolverImpl implements CurrentTenantIdentifierResolver {
     @Override
     public String resolveCurrentTenantIdentifier() {
-        return "internal";
+        return "test_internal";
     }
 
     @Override

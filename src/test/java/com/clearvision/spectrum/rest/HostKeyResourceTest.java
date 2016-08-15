@@ -39,7 +39,7 @@ public class HostKeyResourceTest {
     }
 
     @Test
-    public void testExample() throws Exception {
+    public void testCanGetPublicKey() throws Exception {
         HostKey t = new HostKey();
         t.setId(1L);
         t.setPrivateKey("PRIVATE_KEY");
