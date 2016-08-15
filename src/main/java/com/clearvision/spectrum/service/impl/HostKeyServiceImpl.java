@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @Service
 //@Transactional(rollbackFor={DuplicateValueException.class,InternalServiceException.class})
-@Transactional(value="tenantTransactionManager", readOnly = true)
+@Transactional(value="tenantTransactionManager")
 @Primary
 public class HostKeyServiceImpl implements HostKeyService {
     private static final Logger LOGGER = Logger.getLogger(HostKeyServiceImpl.class);
