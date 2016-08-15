@@ -14,7 +14,7 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,7 +26,8 @@ import java.io.IOException;
 @Configuration
 @ComponentScan("com.clearvision.spectrum.service")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Resource
+
+    @Inject
     private UserDetailsService userDetailsService;
 
     @Override

@@ -10,12 +10,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Transactional("tenantTransactionManager")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@SpringBootTest(classes = {DatabaseConfiguration.class, SecurityConfiguration.class, MultiTenancyJpaConfiguration.class, WebMvcConfig.class})
 public class ApplicationDaoTest {
 
     @Autowired
@@ -32,7 +33,7 @@ public class ApplicationDaoTest {
         application.setUrl("http://example.com");
         Application saved = applicationDao.save(application);
 
-        assertEquals(application, applicationDao.findByName("JIRA"));
+        assertTrue(applicationDao.findByName("JIRA").isPresent());
     }
 
 }

@@ -16,7 +16,7 @@ public class HostKeyResource {
 
     @RequestMapping("/public-key")
     public @ResponseBody
-    HostKey getHostKey(@RequestParam("algorithm")String algorithm) {
+    HostKey getHostKey(@RequestParam("algorithm") String algorithm) {
         HostKey hostKey =  hostKeyService.getHostKey(algorithm);
         // hiding the private key when sending the hostKey to the client
         hostKey.setPrivateKey("SECRET");
