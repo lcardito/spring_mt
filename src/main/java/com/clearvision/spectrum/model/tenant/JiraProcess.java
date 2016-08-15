@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"title", "createDate"}))
-public class Process extends SimpleModel<Process> {
+@Table(name = "Process", uniqueConstraints = @UniqueConstraint(columnNames = {"title", "createDate"})) //TODO CHANGE THIS
+public class JiraProcess extends SimpleModel<JiraProcess> {
 
 	@Filterable
 	@Column(length = 255)
@@ -25,10 +25,10 @@ public class Process extends SimpleModel<Process> {
 	private Timestamp updateDate;
 	private String updatedBy;
 
-	public Process() {
+	public JiraProcess() {
 	}
 
-	public Process(String title, String description, Date createDate, String createdBy, Date updateDate, String updatedBy) {
+	public JiraProcess(String title, String description, Date createDate, String createdBy, Date updateDate, String updatedBy) {
 		this.title = title;
 		this.description = description;
 		this.createDate = new Timestamp(createDate.getTime());

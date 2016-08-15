@@ -19,7 +19,7 @@ import java.util.Date;
 public class ProcessVersion extends SimpleModel<ProcessVersion> {
 
 	@ManyToOne(optional = false)
-	private Process process;
+	private JiraProcess jiraProcess;
 
 	@Column(length = 255)
 	private String fileName;
@@ -58,19 +58,19 @@ public class ProcessVersion extends SimpleModel<ProcessVersion> {
 	}
 
 	public long getProcessId() {
-		return process.getId();
+		return jiraProcess.getId();
 	}
 
 	public void setProcessId(long processId) {
-		this.process.setId(processId);
+		this.jiraProcess.setId(processId);
 	}
 
-	public Process getProcess() {
-		return process;
+	public JiraProcess getJiraProcess() {
+		return jiraProcess;
 	}
 
-	public void setProcess(Process process) {
-		this.process = process;
+	public void setJiraProcess(JiraProcess jiraProcess) {
+		this.jiraProcess = jiraProcess;
 	}
 
 	public String getFileName() {
