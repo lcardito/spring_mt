@@ -25,7 +25,7 @@ import java.util.Map;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "tenantEntityManager",
         transactionManagerRef = "tenantTransactionManager",
-        basePackages = {"me.lcardito.spring.dao.tenant"})
+        basePackages = {"me.lcardito.spring.repository.tenant"})
 @EnableTransactionManagement
 public class MultiTenancyJpaConfiguration {
 

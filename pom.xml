@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.clearvision.spectrum</groupId>
-	<artifactId>spectrum_mt</artifactId>
+	<groupId>me.lcardito.spring</groupId>
+	<artifactId>spring_mt</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Spectrum Application</name>
-	<description>Multi tenant version of Spectrum for the cloud</description>
+	<name>Sprint MT application</name>
+	<description>Multi tenant version of Spring for the cloud</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -78,11 +78,6 @@
             <artifactId>spring-boot-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
@@ -121,16 +116,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <version>1.4.0.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sshd</groupId>
-            <artifactId>sshd-core</artifactId>
-            <version>0.8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.52</version>
         </dependency>
     </dependencies>
 

@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableJpaRepositories(
     entityManagerFactoryRef = "masterEntityManager",
     transactionManagerRef = "masterTransactionManager",
-    basePackages = {"me.lcardito.spring.dao.master"})
+    basePackages = {"me.lcardito.spring.repository.master"})
 @EnableTransactionManagement
 public class DatabaseConfiguration {
     private final static Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
