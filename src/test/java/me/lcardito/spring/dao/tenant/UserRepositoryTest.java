@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ApplicationTest.class})
 @Transactional("tenantTransactionManager")
-public class UserDaoTest {
+public class UserRepositoryTest {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Test
     public void creatingAnUser() {
@@ -25,7 +25,7 @@ public class UserDaoTest {
         user.setPassword("AVerySecurePassword");
         user.setEmail("nice@mail.com");
 
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     @Test

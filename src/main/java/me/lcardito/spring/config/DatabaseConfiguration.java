@@ -26,9 +26,9 @@ import java.util.Properties;
 @Configuration
 @EnableConfigurationProperties(JpaProperties.class)
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "masterEntityManager",
-        transactionManagerRef = "masterTransactionManager",
-        basePackages = {"me.lcardito.spring.dao.master"})
+    entityManagerFactoryRef = "masterEntityManager",
+    transactionManagerRef = "masterTransactionManager",
+    basePackages = {"me.lcardito.spring.dao.master"})
 @EnableTransactionManagement
 public class DatabaseConfiguration {
     private final static Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
@@ -76,7 +76,7 @@ public class DatabaseConfiguration {
     }
 
     @Bean(name = "masterEntityManager")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
@@ -96,8 +96,9 @@ public class DatabaseConfiguration {
         }
         return properties;
     }
+
     @Bean(name = "masterTransactionManager")
-    public JpaTransactionManager transactionManager(EntityManagerFactory masterEntityManager){
+    public JpaTransactionManager transactionManager(EntityManagerFactory masterEntityManager) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(masterEntityManager);
         return transactionManager;

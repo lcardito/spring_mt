@@ -1,7 +1,7 @@
 package me.lcardito.spring.service;
 
 import me.lcardito.spring.model.tenant.User;
-import me.lcardito.spring.dao.tenant.UserDao;
+import me.lcardito.spring.dao.tenant.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOGGER.trace("Looking for user for {}", username);
         try {
-            Optional<User> user = userDao.findByName(username);
+            Optional<User> user = userRepository.findByName(username);
             if (!user.isPresent()) {
                 LOGGER.info("USER NOT PRESENT for {} {}", username, user);
                 throw new UsernameNotFoundException("user not found");
