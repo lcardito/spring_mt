@@ -1,7 +1,7 @@
 package me.lcardito.spring.rest;
 
 import me.lcardito.spring.ApplicationTest;
-import me.lcardito.spring.dao.tenant.UserRepository;
+import me.lcardito.spring.repository.tenant.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

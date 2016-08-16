@@ -1,6 +1,6 @@
 package me.lcardito.spring.rest;
 
-import me.lcardito.spring.dao.tenant.UserRepository;
+import me.lcardito.spring.repository.tenant.UserRepository;
 import me.lcardito.spring.model.tenant.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package me.lcardito.spring.dao.master;
+package me.lcardito.spring.repository.master;
 
 import me.lcardito.spring.model.master.Company;
 import org.springframework.data.jpa.repository.JpaRepository;

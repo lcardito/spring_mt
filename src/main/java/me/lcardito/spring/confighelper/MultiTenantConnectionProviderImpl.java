@@ -1,6 +1,6 @@
 package me.lcardito.spring.confighelper;
 
-import me.lcardito.spring.dao.master.CompanyDao;
+import me.lcardito.spring.repository.master.CompanyDao;
 import me.lcardito.spring.model.master.Company;
 import me.lcardito.spring.util.Utils;
 import com.zaxxer.hikari.HikariConfig;
