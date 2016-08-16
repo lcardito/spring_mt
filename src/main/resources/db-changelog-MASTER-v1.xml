@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
-    <changeSet id="1" author="arussell" context="production">
+    <changeSet id="1" author="lcardito" context="production">
 
         <createTable tableName="company">
             <column name="id" autoIncrement="true" type="BIGINT UNSIGNED">
@@ -19,7 +19,7 @@
     </changeSet>
 
 
-    <changeSet id="populate-initial-data" author="arussell" context="production">
+    <changeSet id="populate-initial-data" author="lcardito" context="production">
         <preConditions onFail="MARK_RAN">
             <rowCount tableName="company" expectedRows="0"/>
         </preConditions>
@@ -32,7 +32,7 @@
         </insert>
     </changeSet>
 
-    <changeSet id="populate-test-company" author="arussell" context="test">
+    <changeSet id="populate-test-company" author="lcardito" context="test">
         <!-- Populate db with initial data -->
         <insert tableName="company">
             <column name="company_key">test_internal</column>

@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ComponentScan("com.clearvision.spectrum.confighelper")
+@ComponentScan("me.lcardito.spring.confighelper")
 @EnableJpaRepositories(
         entityManagerFactoryRef = "tenantEntityManager",
         transactionManagerRef = "tenantTransactionManager",
-        basePackages = {"com.clearvision.spectrum.dao.tenant"})
+        basePackages = {"me.lcardito.spring.dao.tenant"})
 @EnableTransactionManagement
 public class MultiTenancyJpaConfiguration {
     @Bean

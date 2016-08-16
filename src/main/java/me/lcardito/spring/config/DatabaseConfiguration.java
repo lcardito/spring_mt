@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "masterEntityManager",
         transactionManagerRef = "masterTransactionManager",
-        basePackages = {"com.clearvision.spectrum.dao.master"})
+        basePackages = {"me.lcardito.spring.dao.master"})
 @EnableTransactionManagement
 public class DatabaseConfiguration {
     private final static Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
@@ -80,7 +80,7 @@ public class DatabaseConfiguration {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"com.clearvision.spectrum.model.master"});
+        em.setPackagesToScan(new String[]{"me.lcardito.spring.model.master"});
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalJpaProperties());
 

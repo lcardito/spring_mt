@@ -6,8 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan
-public class Spectrum {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(Spectrum.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

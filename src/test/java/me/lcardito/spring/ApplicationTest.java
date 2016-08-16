@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = CurrentTenantResolverImpl.class)
 @ComponentScan
-public class SpectrumTest {
+public class ApplicationTest {
     public static void main(String[] args) {
-        SpringApplication.run(Spectrum.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
