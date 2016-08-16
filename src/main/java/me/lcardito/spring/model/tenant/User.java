@@ -1,6 +1,7 @@
 package me.lcardito.spring.model.tenant;
 
 import me.lcardito.spring.model.SimpleModel;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,11 +21,21 @@ import java.util.Set;
 
 @Entity
 public class User extends SimpleModel implements UserDetails {
+    @NotBlank
+    @NotNull
     private String name;
+
+    @NotBlank
+    @NotNull
     private String email;
+
+    @NotBlank
+    @NotNull
 	private String password;
+
     private String firstName;
     private String lastName;
+    
     private boolean isActive;
 
     @Column

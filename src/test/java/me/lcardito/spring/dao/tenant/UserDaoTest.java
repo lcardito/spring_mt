@@ -18,9 +18,12 @@ public class UserDaoTest {
     private UserDao userDao;
 
     @Test
-    public void creatingApps() {
+    public void creatingAnUser() {
         User user = new User();
-        user.setName("JIRA");
+        user.setName("Luigi");
+        user.setActive(true);
+        user.setPassword("AVerySecurePassword");
+        user.setEmail("nice@mail.com");
 
         userDao.save(user);
     }

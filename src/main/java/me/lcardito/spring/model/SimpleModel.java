@@ -25,15 +25,14 @@ public class SimpleModel<T extends SimpleModel> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		SimpleModel other = (SimpleModel) o;
+        SimpleModel other = (SimpleModel) o;
 
-		if (id == null || other.id == null) return false;
+        return !(id == null || other.id == null) && id.equals(other.id);
 
-		return id.equals(other.id);
-	}
+    }
 
 	@Override
 	public int hashCode() {

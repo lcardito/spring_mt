@@ -28,6 +28,7 @@ import java.util.Map;
         basePackages = {"me.lcardito.spring.dao.tenant"})
 @EnableTransactionManagement
 public class MultiTenancyJpaConfiguration {
+
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         return new HibernateJpaVendorAdapter();
