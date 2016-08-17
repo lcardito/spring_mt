@@ -1,6 +1,4 @@
 .idea/
-spectrum_mt.iml
-src/main/web/bower_components/
-src/main/web/etc/
-src/main/web/node_modules/
+*.iml
 target/
+src/main/resources/static
