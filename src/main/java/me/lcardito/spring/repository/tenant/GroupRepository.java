@@ -3,7 +3,7 @@ package me.lcardito.spring.repository.tenant;
 import me.lcardito.spring.model.tenant.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GroupDao extends JpaRepository<Group, Long> {
+public interface GroupRepository extends JpaRepository<Group, Long> {
 //	List<Group> findAll(int limit, String filter);
 //	long countGroupsByUserId(long userId);
 //	List<Group> getGroupsByUserId(long userId);

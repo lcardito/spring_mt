@@ -1,23 +1,24 @@
-package me.lcardito.spring.service;
+package me.lcardito.spring.service.impl;
 
 import me.lcardito.spring.model.tenant.User;
 import me.lcardito.spring.repository.tenant.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.Optional;
 
 @Service
-@Transactional(value="masterTransactionManager", readOnly = true)
-public class CustomUserDetailsService implements UserDetailsService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserDetailsService.class);
-    @Autowired
+@Transactional(value="tenantTransactionManager")
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+
+    @Inject
     private UserRepository userRepository;
 
     @Override
@@ -37,5 +38,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return null;
     }
-
 }
