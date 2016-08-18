@@ -6,12 +6,12 @@ import me.lcardito.spring.service.UserSyncService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
-@Service
+@Component
 public class UserSyncServiceImpl implements UserSyncService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserSyncServiceImpl.class);
 

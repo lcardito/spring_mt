@@ -4,7 +4,7 @@ liquibase:
 spring:
     datasource:
         dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
-        url: jdbc:mysql://localhost:3306/multitenant_unittest?createDatabaseIfNotExist=true
+        url: jdbc:mysql://localhost:3306/test_spring_mt?createDatabaseIfNotExist=true
         poolName: SpringBootHikariCP
         username: root
         password: root
